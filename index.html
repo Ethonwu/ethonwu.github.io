@@ -1,0 +1,388 @@
+<html>
+<head>
+	<meta name="generator" content="Hugo 0.66.0" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Ethon Blog</title>
+
+    
+    
+    <meta content="Ethon Blog" name="keywords">
+    
+    <meta content="Ethon Blog - A website called Ethon Blog" name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+
+    
+        <link href="/index.xml" rel="alternate" type="application/rss&#43;xml" title="Ethon Blog" />
+        <link href="/index.xml" rel="feed" type="application/rss&#43;xml" title="Ethon Blog" />
+    
+
+    
+
+    
+    
+    <script type="text/javascript" async
+        src="/mathjax-3.0.0/tex-mml-chtml.js">
+    </script>
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src="/layui/layui.js"></script>
+
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    <link rel="stylesheet" async href="/font-awesome-4.7.0/css/font-awesome.min.css">
+    <script src="/self/js/lazysizes.min.js" async></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+    
+    <a class="nav-self-logo" href="/">
+        Ethon Blog
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        <li class="layui-nav-item" id="nav_big"><a href="/post/">Posts</a></li>
+        
+
+        
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/about/">About</a></li>
+            
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                <dd><a href="/post/">Posts</a></dd>
+                
+
+                
+                    
+                        <dd><a href="/about/">About</a></dd>
+                    
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+        <div id="content" style="min-height:80%">
+
+<main>
+<div class="layui-container">
+    <div class="layui-row about">
+        <div class="layui-col-xs12 layui-col-sm4 layui-col-md4 about_left">
+            <img class="lazyload about_portrait" data-src="/img/portrait.jpg" />
+            <h1> Ethon Wu </h1>
+            <h2> Intro </h2>
+            
+            
+            
+            <div class="layui-row layui-col-space10 about_left_icon">
+                
+                <div class="layui-col-md3 layui-col-sm3 layui-col-xs3">
+                <a href="mailto:username@mail.com"><i class="fa fa-envelope-o" style="font-size:32px;"></i></a>
+                </div>
+                
+                <div class="layui-col-md3 layui-col-sm3 layui-col-xs3">
+                <a href="https://github.com/username/"><i class="fa fa-github" style="font-size:32px;"></i></a>
+                </div>
+                
+            </div>
+            
+
+        </div>
+        <div class="layui-col-xs12 layui-col-sm8 layui-col-md8 about_right">
+            <h1>Biography</h1>
+            <h2>    <p> 寫寫文章，以備不時之需 </p>
+    </h2>
+        </div>
+    </div>
+</div>
+
+<div class="layui-fluid recent" >
+    <div class="layui-container">
+        <div class="layui-row recent-inner" >
+            <div class="layui-col-md8 layui-col-sm8 layui-col-xs12">
+                <h1> Recent Posts </h1>
+                
+                    
+                            <blockquote class="layui-elem-quote" style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/post/hive_sentry_setting/">
+            <h2 class="">Hive Sentry Setting</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 24px; vertical-align: -2px;"></i>
+    <span>2020-03-16</span>
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 0px;"></i>
+    
+        <a href="/tags/cdh">
+            <span class="layui-badge" style="vertical-align: 2px;">CDH</span>
+        </a>
+    
+        <a href="/tags/cloudera">
+            <span class="layui-badge" style="vertical-align: 2px;">Cloudera</span>
+        </a>
+    
+        <a href="/tags/mit-kerberos">
+            <span class="layui-badge" style="vertical-align: 2px;">MIT Kerberos</span>
+        </a>
+    
+        <a href="/tags/hadoop">
+            <span class="layui-badge" style="vertical-align: 2px;">Hadoop</span>
+        </a>
+    
+        <a href="/tags/authentication">
+            <span class="layui-badge" style="vertical-align: 2px;">authentication</span>
+        </a>
+    
+        <a href="/tags/security">
+            <span class="layui-badge" style="vertical-align: 2px;">security</span>
+        </a>
+    
+        <a href="/tags/hive">
+            <span class="layui-badge" style="vertical-align: 2px;">Hive</span>
+        </a>
+    
+        <a href="/tags/sentry">
+            <span class="layui-badge" style="vertical-align: 2px;">Sentry</span>
+        </a>
+    
+</h3>
+
+        <h3>
+        	
+				Enable MIT Kerberos 後，介紹如何整合 Sentry 透過 Hive Cli 為資料庫或是資料表建立不同的權限。
+			 <a href="/post/hive_sentry_setting/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+                    
+                            <blockquote class="layui-elem-quote" style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/post/kerberos_cdh_setting/">
+            <h2 class="">Kerberos CDH Setting</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 24px; vertical-align: -2px;"></i>
+    <span>2020-01-21</span>
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 0px;"></i>
+    
+        <a href="/tags/cdh">
+            <span class="layui-badge" style="vertical-align: 2px;">CDH</span>
+        </a>
+    
+        <a href="/tags/cloudera">
+            <span class="layui-badge" style="vertical-align: 2px;">Cloudera</span>
+        </a>
+    
+        <a href="/tags/mit-kerberos">
+            <span class="layui-badge" style="vertical-align: 2px;">MIT Kerberos</span>
+        </a>
+    
+        <a href="/tags/hadoop">
+            <span class="layui-badge" style="vertical-align: 2px;">Hadoop</span>
+        </a>
+    
+        <a href="/tags/authentication">
+            <span class="layui-badge" style="vertical-align: 2px;">authentication</span>
+        </a>
+    
+        <a href="/tags/security">
+            <span class="layui-badge" style="vertical-align: 2px;">security</span>
+        </a>
+    
+</h3>
+
+        <h3>
+        	
+				Cloudera Manager &#43; MIT Kerberos Enable Setting
+			 <a href="/post/kerberos_cdh_setting/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+                    
+                            <blockquote class="layui-elem-quote" style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/post/clouadera_manager_install/">
+            <h2 class="">Clouadera Manager Three Install Path</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 24px; vertical-align: -2px;"></i>
+    <span>2019-04-08</span>
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 0px;"></i>
+    
+        <a href="/tags/cdh">
+            <span class="layui-badge" style="vertical-align: 2px;">CDH</span>
+        </a>
+    
+        <a href="/tags/cloudera-manager">
+            <span class="layui-badge" style="vertical-align: 2px;">Cloudera Manager</span>
+        </a>
+    
+        <a href="/tags/hadoop">
+            <span class="layui-badge" style="vertical-align: 2px;">Hadoop</span>
+        </a>
+    
+</h3>
+
+        <h3>
+        	
+				Three install Cloudera Manager &amp; CDH ways
+			 <a href="/post/clouadera_manager_install/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+                    
+                            <blockquote class="layui-elem-quote" style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/post/virtualbox_command/">
+            <h2 class="">Virtualbox Command Notes</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 24px; vertical-align: -2px;"></i>
+    <span>2017-10-03</span>
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 0px;"></i>
+    
+        <a href="/tags/virtualbox">
+            <span class="layui-badge" style="vertical-align: 2px;">Virtualbox</span>
+        </a>
+    
+        <a href="/tags/linux">
+            <span class="layui-badge" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+        <a href="/tags/shell">
+            <span class="layui-badge" style="vertical-align: 2px;">shell</span>
+        </a>
+    
+</h3>
+
+        <h3>
+        	
+				Virtualbox Command intro
+			 <a href="/post/virtualbox_command/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+                    
+                
+            </div>
+
+            <div class="layui-col-md4 layui-col-sm4 layui-col-xs12">
+                
+                    <h1><a href="/tags">tags</a> </h1>
+                    
+                        <a href="/tags/authentication/">
+                            <span class="layui-badge" style="margin: 5px">authentication</span>
+                        </a>
+                    
+                        <a href="/tags/cdh/">
+                            <span class="layui-badge" style="margin: 5px">cdh</span>
+                        </a>
+                    
+                        <a href="/tags/cloudera/">
+                            <span class="layui-badge" style="margin: 5px">cloudera</span>
+                        </a>
+                    
+                        <a href="/tags/cloudera-manager/">
+                            <span class="layui-badge" style="margin: 5px">cloudera-manager</span>
+                        </a>
+                    
+                        <a href="/tags/hadoop/">
+                            <span class="layui-badge" style="margin: 5px">hadoop</span>
+                        </a>
+                    
+                        <a href="/tags/hive/">
+                            <span class="layui-badge" style="margin: 5px">hive</span>
+                        </a>
+                    
+                        <a href="/tags/linux/">
+                            <span class="layui-badge" style="margin: 5px">linux</span>
+                        </a>
+                    
+                        <a href="/tags/mit-kerberos/">
+                            <span class="layui-badge" style="margin: 5px">mit-kerberos</span>
+                        </a>
+                    
+                        <a href="/tags/security/">
+                            <span class="layui-badge" style="margin: 5px">security</span>
+                        </a>
+                    
+                        <a href="/tags/sentry/">
+                            <span class="layui-badge" style="margin: 5px">sentry</span>
+                        </a>
+                    
+                        <a href="/tags/shell/">
+                            <span class="layui-badge" style="margin: 5px">shell</span>
+                        </a>
+                    
+                        <a href="/tags/virtualbox/">
+                            <span class="layui-badge" style="margin: 5px">virtualbox</span>
+                        </a>
+                    
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+</main>
+
+
+        </div><footer>
+    
+
+    <div class="layui-container">
+        <div class="layui-row">
+            <div class="layui-col-md4 layui-col-sm6 layui-col-xs6">
+		    
+            </div>
+        </div>
+        <div class="layui-row">
+            
+            <div class="layui-col-md4 layui-col-sm6 layui-col-xs12">
+                <a href="/"><p class="footer-url">home</p></a>
+            </div>
+            
+            <div class="layui-col-md4 layui-col-sm6 layui-col-xs12">
+                <a href="/about/"><p class="footer-url">About</p></a>
+            </div>
+            
+        </div>
+    </div>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">Copyright © 2008–2019, Steve Francia and the Hugo Authors; all rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>

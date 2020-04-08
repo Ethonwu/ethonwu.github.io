@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Hadoop on Ethon Blog</title>
+    <link>http://localhost:1313/tags/hadoop/</link>
+    <description>Recent content in Hadoop on Ethon Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 16 Mar 2020 18:00:22 +0800</lastBuildDate>
+    
+	<atom:link href="http://localhost:1313/tags/hadoop/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Hive Sentry Setting</title>
+      <link>http://localhost:1313/post/hive_sentry_setting/</link>
+      <pubDate>Mon, 16 Mar 2020 18:00:22 +0800</pubDate>
+      
+      <guid>http://localhost:1313/post/hive_sentry_setting/</guid>
+      <description>如何在 Hive 上面整合 Sentry 與 Kerberos   上次文章介紹完 Kerberos 後，此章節為如何在 Hive 上面針對不同的 Table 根據不同的 Principle 建立權限
+  為什麼需要這個？
+  若是沒有做好權限的管理，那麼任何一個 User 便可以去對任意的 Table 進行修改，會造成許多問題
+ OS : CentOS 7 結點數：3 CM 版本：5.16.2 CDH 版本：5.16.2 叢集資訊：     Hostname IP     all.asia-east1-a.c.fair-terminus-264703.internal all 10.140.0.2    大致流程  進入 Cloudera Manager 更改設定檔 進入 beeline 進行 Table 權限的控管  進入 Cloudera Manager ，建立 Hive 臨時用的特權帳號 1.</description>
+    </item>
+    
+    <item>
+      <title>Kerberos CDH Setting</title>
+      <link>http://localhost:1313/post/kerberos_cdh_setting/</link>
+      <pubDate>Tue, 21 Jan 2020 18:04:11 +0800</pubDate>
+      
+      <guid>http://localhost:1313/post/kerberos_cdh_setting/</guid>
+      <description>當 CDH 的叢集服務架設好後，即便有了基本的權限設定，但是在 安全性 上面仍然有很多問題，因此 Cloudera Manager 將各個有 Kerberos 功能的 Component 整合在一起，設定方式只要透過 Cloudera Manager 設定即可，並不需要自己生成某個 Component 的 Principal，Cloudera Manager 會自動去處理這些事情，因此方便了許多，不用一個一個 Component 去進行設定。
+  這篇文章為 如何安裝 Kerberos 並且透過 Cloudera Manager 去整合 CDH 裡面的 Component，前期的安裝建置過程直接跳過，如果需要安裝建置的文章可以參考這篇（還沒寫）
+  OS 架構  OS : CentOS 7 結點數：3 CM 版本：5.16.2 CDH 版本：5.16.2 叢集資訊：     Hostname IP     edgenode.us-central1-a.c.still-toolbox-265706.internal 10.128.0.2   all-in-one-node1.us-central1-c.c.still-toolbox-265706.internal 10.128.0.3   all-in-one-node2.us-central1-b.c.still-toolbox-265706.internal 10.</description>
+    </item>
+    
+    <item>
+      <title>Clouadera Manager Three Install Path</title>
+      <link>http://localhost:1313/post/clouadera_manager_install/</link>
+      <pubDate>Mon, 08 Apr 2019 15:55:33 +0800</pubDate>
+      
+      <guid>http://localhost:1313/post/clouadera_manager_install/</guid>
+      <description>架設過程是已離線的方式進行安裝，因為有一些環境的叢集是沒有連網的，所以建置方式是以沒有網路的狀態進行安裝。
+以下為架設過程的流程圖：
+ 系統前置作業  最佳化 OS 系統設定方式 yum / apt 部分設定   資料庫設定 Parcels V.S Package 安裝Cloudera Manager A, B ,C 方式統整  A方法 B方法 C方法   三種方法的總結  還沒寫
+還沒寫
+有網路狀態安裝套件的方法
+無網路狀態安裝套件的方法：
+ 使用CentOS DVD裡面的rpm檔案安裝所需要的服務：  檢查OS是否有讀取到CD的資訊
+ls -al /dev/cdrom  輸出結果
+lrwxrwxrwx. 1 root root 3 3月 7 17:51 /dev/cdrom -&amp;gt; sr0  代表有讀取到光碟內容
+在根目錄下建立掛載資料夾
+mkdir ~/&amp;lt;dir name&amp;gt; mount -t iso9660 -o ro /dev/cdrom ~/&amp;lt;dir name&amp;gt;  若沒提供CentOS DVD 只能將CentOS DVD的ISO檔移動到叢集內：  將iso檔下載下來後在將檔案移入叢集主機內</description>
+    </item>
+    
+  </channel>
+</rss>

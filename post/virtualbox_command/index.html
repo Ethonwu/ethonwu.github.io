@@ -1,0 +1,185 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Ethon Blog - Virtualbox Command Notes </title>
+
+    
+    
+    <meta content="Virtualbox, linux, shell" name="keywords">
+    
+    <meta content="Ethon Blog - Virtualbox Command intro" name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+
+    
+
+    
+
+    
+    
+    <script type="text/javascript" async
+        src="/mathjax-3.0.0/tex-mml-chtml.js">
+    </script>
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src="/layui/layui.js"></script>
+
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    <link rel="stylesheet" async href="/font-awesome-4.7.0/css/font-awesome.min.css">
+    <script src="/self/js/lazysizes.min.js" async></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+    
+    <a class="nav-self-logo" href="/">
+        Ethon Blog
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        <li class="layui-nav-item" id="nav_big"><a href="/post/">Posts</a></li>
+        
+
+        
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/about/">About</a></li>
+            
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                <dd><a href="/post/">Posts</a></dd>
+                
+
+                
+                    
+                        <dd><a href="/about/">About</a></dd>
+                    
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md12 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="layui-elem-quote markdown-body single-title" >
+                    <h1>Virtualbox Command Notes</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 24px; vertical-align: -2px;"></i>
+    <span>2017-10-03</span>
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 0px;"></i>
+    
+        <a href="/tags/virtualbox">
+            <span class="layui-badge" style="vertical-align: 2px;">Virtualbox</span>
+        </a>
+    
+        <a href="/tags/linux">
+            <span class="layui-badge" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+        <a href="/tags/shell">
+            <span class="layui-badge" style="vertical-align: 2px;">shell</span>
+        </a>
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <h1 id="my-common-use-command">My common use command</h1>
+<h2 id="1list-vm">1.List VM</h2>
+<pre><code>VBoxManage list vms
+</code></pre>
+<h3 id="using-this-will-be-more-clear">Using this will be more clear</h3>
+<pre><code>VBoxManage list vms | sed &quot;s/\&quot;\(.*\)\&quot;.*/\1/&quot;
+</code></pre>
+<h4 id="output">Output:</h4>
+<h3 id="in-my-pc-show-like-this">In my PC show like this:</h3>
+<pre><code>kali
+hadoop-master
+hadoop-slave2
+hadoop-slave3
+hadoop-slave1
+</code></pre>
+<h2 id="2power-onoff-vms">2.Power On/Off VMs</h2>
+<h3 id="this-is-opening-in-gui-mode">This is opening in GUI mode:</h3>
+<pre><code>VBoxManage startvm &quot;&lt;vm name&gt;&quot;
+</code></pre>
+<h3 id="if-you-want-to-open-in-backgrund">If you want to open in backgrund:</h3>
+<pre><code>VBoxHeadless --startvm &quot;&lt;vm name&gt;&quot; --vrde=off &amp; &gt; tmp.txt &amp;
+</code></pre>
+<h3 id="power-off-vm">Power off vm</h3>
+<pre><code>VBoxManage controlvm &quot;&lt;vm name&gt;&quot; poweroff
+</code></pre>
+<h2 id="3import-ova-file-to-virtualbox">3.Import ova file to Virtualbox</h2>
+<pre><code>VBoxManage import  &lt;File/path/and/file.ova&gt; --vsys 0 --vmname &quot;Rename&quot;
+</code></pre>
+</div>
+            </div>
+        </div>
+
+        
+    </div>
+</div>
+
+
+        </div><footer>
+    
+
+    <div class="layui-container">
+        <div class="layui-row">
+            <div class="layui-col-md4 layui-col-sm6 layui-col-xs6">
+		    
+            </div>
+        </div>
+        <div class="layui-row">
+            
+            <div class="layui-col-md4 layui-col-sm6 layui-col-xs12">
+                <a href="/"><p class="footer-url">home</p></a>
+            </div>
+            
+            <div class="layui-col-md4 layui-col-sm6 layui-col-xs12">
+                <a href="/about/"><p class="footer-url">About</p></a>
+            </div>
+            
+        </div>
+    </div>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">Copyright © 2008–2019, Steve Francia and the Hugo Authors; all rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>

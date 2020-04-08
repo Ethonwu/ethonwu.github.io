@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Sentry on Ethon Blog</title>
+    <link>http://localhost:1313/tags/sentry/</link>
+    <description>Recent content in Sentry on Ethon Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 16 Mar 2020 18:00:22 +0800</lastBuildDate>
+    
+	<atom:link href="http://localhost:1313/tags/sentry/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Hive Sentry Setting</title>
+      <link>http://localhost:1313/post/hive_sentry_setting/</link>
+      <pubDate>Mon, 16 Mar 2020 18:00:22 +0800</pubDate>
+      
+      <guid>http://localhost:1313/post/hive_sentry_setting/</guid>
+      <description>如何在 Hive 上面整合 Sentry 與 Kerberos   上次文章介紹完 Kerberos 後，此章節為如何在 Hive 上面針對不同的 Table 根據不同的 Principle 建立權限
+  為什麼需要這個？
+  若是沒有做好權限的管理，那麼任何一個 User 便可以去對任意的 Table 進行修改，會造成許多問題
+ OS : CentOS 7 結點數：3 CM 版本：5.16.2 CDH 版本：5.16.2 叢集資訊：     Hostname IP     all.asia-east1-a.c.fair-terminus-264703.internal all 10.140.0.2    大致流程  進入 Cloudera Manager 更改設定檔 進入 beeline 進行 Table 權限的控管  進入 Cloudera Manager ，建立 Hive 臨時用的特權帳號 1.</description>
+    </item>
+    
+  </channel>
+</rss>

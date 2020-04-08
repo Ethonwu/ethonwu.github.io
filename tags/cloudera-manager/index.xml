@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Cloudera Manager on Ethon Blog</title>
+    <link>http://localhost:1313/tags/cloudera-manager/</link>
+    <description>Recent content in Cloudera Manager on Ethon Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 08 Apr 2019 15:55:33 +0800</lastBuildDate>
+    
+	<atom:link href="http://localhost:1313/tags/cloudera-manager/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Clouadera Manager Three Install Path</title>
+      <link>http://localhost:1313/post/clouadera_manager_install/</link>
+      <pubDate>Mon, 08 Apr 2019 15:55:33 +0800</pubDate>
+      
+      <guid>http://localhost:1313/post/clouadera_manager_install/</guid>
+      <description>架設過程是已離線的方式進行安裝，因為有一些環境的叢集是沒有連網的，所以建置方式是以沒有網路的狀態進行安裝。
+以下為架設過程的流程圖：
+ 系統前置作業  最佳化 OS 系統設定方式 yum / apt 部分設定   資料庫設定 Parcels V.S Package 安裝Cloudera Manager A, B ,C 方式統整  A方法 B方法 C方法   三種方法的總結  還沒寫
+還沒寫
+有網路狀態安裝套件的方法
+無網路狀態安裝套件的方法：
+ 使用CentOS DVD裡面的rpm檔案安裝所需要的服務：  檢查OS是否有讀取到CD的資訊
+ls -al /dev/cdrom  輸出結果
+lrwxrwxrwx. 1 root root 3 3月 7 17:51 /dev/cdrom -&amp;gt; sr0  代表有讀取到光碟內容
+在根目錄下建立掛載資料夾
+mkdir ~/&amp;lt;dir name&amp;gt; mount -t iso9660 -o ro /dev/cdrom ~/&amp;lt;dir name&amp;gt;  若沒提供CentOS DVD 只能將CentOS DVD的ISO檔移動到叢集內：  將iso檔下載下來後在將檔案移入叢集主機內</description>
+    </item>
+    
+  </channel>
+</rss>

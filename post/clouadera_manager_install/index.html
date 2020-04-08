@@ -1,0 +1,409 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Ethon Blog - Clouadera Manager Three Install Path </title>
+
+    
+    
+    <meta content="CDH, Cloudera Manager, Hadoop" name="keywords">
+    
+    <meta content="Ethon Blog - Three install Cloudera Manager &amp; CDH ways" name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+
+    
+
+    
+
+    
+    
+    <script type="text/javascript" async
+        src="/mathjax-3.0.0/tex-mml-chtml.js">
+    </script>
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src="/layui/layui.js"></script>
+
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    <link rel="stylesheet" async href="/font-awesome-4.7.0/css/font-awesome.min.css">
+    <script src="/self/js/lazysizes.min.js" async></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+    
+    <a class="nav-self-logo" href="/">
+        Ethon Blog
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        <li class="layui-nav-item" id="nav_big"><a href="/post/">Posts</a></li>
+        
+
+        
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/about/">About</a></li>
+            
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                <dd><a href="/post/">Posts</a></dd>
+                
+
+                
+                    
+                        <dd><a href="/about/">About</a></dd>
+                    
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md12 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="layui-elem-quote markdown-body single-title" >
+                    <h1>Clouadera Manager Three Install Path</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 24px; vertical-align: -2px;"></i>
+    <span>2019-04-08</span>
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 0px;"></i>
+    
+        <a href="/tags/cdh">
+            <span class="layui-badge" style="vertical-align: 2px;">CDH</span>
+        </a>
+    
+        <a href="/tags/cloudera-manager">
+            <span class="layui-badge" style="vertical-align: 2px;">Cloudera Manager</span>
+        </a>
+    
+        <a href="/tags/hadoop">
+            <span class="layui-badge" style="vertical-align: 2px;">Hadoop</span>
+        </a>
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <p>架設過程是已離線的方式進行安裝，因為有一些環境的叢集是沒有連網的，所以建置方式是以沒有網路的狀態進行安裝。</p>
+<p>以下為架設過程的流程圖：</p>
+<ul>
+<li><a href="#1">系統前置作業</a>
+<ul>
+<li><a href="#1.1">最佳化 OS 系統設定方式</a></li>
+<li><a href="#1.2">yum / apt 部分設定</a></li>
+</ul>
+</li>
+<li><a href="#2">資料庫設定</a></li>
+<li><a href="#3">Parcels V.S Package</a></li>
+<li><a href="#4">安裝Cloudera Manager A, B ,C 方式統整</a>
+<ul>
+<li><a href="#4.1">A方法</a></li>
+<li><a href="#4.2">B方法</a></li>
+<li><a href="#4.3">C方法</a></li>
+</ul>
+</li>
+<li><a href="#5">三種方法的總結</a></li>
+</ul>
+<!-- raw HTML omitted -->
+<p>還沒寫</p>
+<!-- raw HTML omitted -->
+<p>還沒寫</p>
+<!-- raw HTML omitted -->
+<p>有網路狀態安裝套件的方法</p>
+<p>無網路狀態安裝套件的方法：</p>
+<ol>
+<li>使用CentOS DVD裡面的rpm檔案安裝所需要的服務：</li>
+</ol>
+<p>檢查OS是否有讀取到CD的資訊</p>
+<pre><code>ls -al /dev/cdrom
+</code></pre>
+<p>輸出結果</p>
+<pre><code>lrwxrwxrwx. 1 root root 3 3月 7 17:51 /dev/cdrom -&gt; sr0
+</code></pre>
+<p>代表有讀取到光碟內容</p>
+<p>在根目錄下建立掛載資料夾</p>
+<pre><code>mkdir ~/&lt;dir name&gt;
+mount -t iso9660 -o ro /dev/cdrom ~/&lt;dir name&gt;
+</code></pre>
+<ol start="2">
+<li>若沒提供CentOS DVD 只能將CentOS DVD的ISO檔移動到叢集內：</li>
+</ol>
+<p>將iso檔下載下來後在將檔案移入叢集主機內</p>
+<pre><code>wget http:// URL
+scp &lt;file location&gt; &lt;account&gt;@&lt;IP&gt;:&lt;location&gt;
+</code></pre>
+<p>在根目錄下建立掛載資料夾</p>
+<pre><code>mkdir ~/&lt;dir name&gt;
+mount -t iso9660 -o loop &lt;location&gt; ~/&lt;dir name&gt;
+</code></pre>
+<p>編輯repo檔案</p>
+<pre><code>vi /etc/yum.repo.d/cd.repo
+</code></pre>
+<p>內容為下</p>
+<pre><code># baseurl 因為目前還沒安裝web service 所以baseurl路徑為file://
+[cd]
+name=cd
+baseurl=file:///&lt;dir path&gt;
+enable=1
+gpgcheck=0
+</code></pre>
+<p>因為我很想用 <strong>vim</strong> 所以急著裝 <strong>vim</strong></p>
+<p>設定完成後，就可以使用 yum install 安裝基本的套件了</p>
+<pre><code>yum -y install httpd
+</code></pre>
+<!-- raw HTML omitted -->
+<p>Cloudera Manager and Managed Service Datastores
+<a href="https://www.cloudera.com/documentation/enterprise/5-8-x/topics/cm_ig_installing_configuring_dbs.html#cmig_topic_5">參考網站</a></p>
+<p>CDH 在運行各個服務的時候，這些服務需要存取一些所需要的資訊，因此必須使用到Database，首先先介紹各個 Database，在介紹各個服務存取在Database上的資訊</p>
+<p> 結構化 v.s 非結構化介紹 v.s 半結構化資料
+<a href="https://ithelp.ithome.com.tw/articles/10200157">參考網站1</a></p>
+<p><a href="https://kevinwang.gitbooks.io/bigdata/content/general/structured-data.html">參考網站2</a></p>
+<ol>
+<li>
+<p>結構化資料：已經定義好的欄位資訊，可以很明顯地了解欄位中的意義。</p>
+</li>
+<li>
+<p>非結構化資料：一團亂的資料，無法明顯地了解欄位中的意義，例如：影音串流。</p>
+</li>
+<li>
+<p>半結構化資料：介於結構化資料與非結構化資料之間，它不保證一致性。舉例來說，一個資料表中，可能只有部份資料列含有電話欄位，同時只有部份資料列含有地址訊息。
+例子（<a href="https://kevinwang.gitbooks.io/bigdata/content/general/structured-data.html">參考網站2</a>）：</p>
+</li>
+</ol>
+<p>xml
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->Squall<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->18<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->gunblade<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->Mario<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->plumber<!-- raw HTML omitted -->
+&lt;shoe_color&gt;brown&lt;/shoe_color&gt;
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted --></p>
+<p>age 與 job 的部分，此方式的缺點是需要消耗額外的空間。</p>
+<p>各個服務所需要存取在DB上的資訊：</p>
+<ol>
+<li>Oozie Server : 包含 Oozie workflow, coordinator, 和 bundle data 這些資料，儲存空間large</li>
+<li>Sqoop Server : 包含 connector, driver, links and jobs 這些資料，儲存空間small</li>
+<li>Activity Monitor : 包含 past activities 的資料，在大型的叢集中，所需要的儲存空間large</li>
+<li>Reports Manager: 包含 disk utilization 和 processing activities 的資訊，儲存空間medium</li>
+<li>Hive Metastore Server : 包含 Hive metadata ，儲存空間small</li>
+<li>Hue Server : 包含 user資訊, job submissions, Hive queries，儲存空間small</li>
+<li>Sentry Server : 包含 authorization metadata ， 儲存空間small</li>
+<li>Cloudera Navigator Audit Server : 包含 auditing information ，在大型的從集中，所需要的儲存空間large</li>
+<li>Cloudera Navigator Metadata Server : 包含 authorization, policies, 和 audit report metadata ，儲存空間small</li>
+</ol>
+<p>Database 參考此篇文章</p>
+<!-- raw HTML omitted -->
+<p><a href="https://www.cloudera.com/documentation/enterprise/5-8-x/topics/cm_ig_managing_software.html">link title</a></p>
+<p>可以使用兩種方法進行安裝 Package 和 Parcel</p>
+<ul>
+<li>
+<p>Package 方式 有多個安裝包可提供安裝</p>
+</li>
+<li>
+<p>Parcel 方式 類似一個tarbal的方式，把所有的資料包起來，如果遇到版本要更新，隨即更換一個parcel檔即可比起Package的方式來的方便</p>
+</li>
+</ul>
+<p>在 Advantages of Parcels 部份中有提到Puppet自動化部屬工具，有時間可以研究。</p>
+<p><a href="https://shazi.info/puppet-%E8%87%AA%E5%8B%95%E5%8C%96%E9%83%A8%E7%BD%B2-%E5%AE%89%E8%A3%9D%E5%88%9D%E5%A7%8B%E5%8C%96/">link title</a></p>
+<p>以下為Parcel 版本下載的網址
+在架設過程中要拉資料可以參考此網址下載</p>
+<p><a href="https://archive.cloudera.com/cdh5/parcels/">link title</a></p>
+<!-- raw HTML omitted -->
+<p>以下步驟為設定完成前置作業後，進行cloudera-manager的安裝方式，分為三種：</p>
+<p>Path A, B, C</p>
+<p><a href="https://www.cloudera.com/documentation/enterprise/5-8-x/topics/cm_ig_create_local_package_repo.html#cmig_topic_21_3">Local install guide</a></p>
+<p>安裝方式有三種</p>
+<!-- raw HTML omitted -->
+<p>Installation Path A - Automated Installation by Cloudera Manager (Non-Production Mode)</p>
+<p>Path A 的安裝方式是從網路上下載一個binary檔，然後執行自動安裝</p>
+<p>此方式在文件中闡述不建議用此方式安裝，建議提供展示用途</p>
+<blockquote>
+<p>This path is recommended for demonstration and proof-of-concept deployments, but is not recommended for production deployments because its not intended to scale and may require database migration as your cluster grows.</p>
+</blockquote>
+<p><a href="https://www.cloudera.com/documentation/enterprise/5-8-x/topics/cm_ig_install_path_a.html#id_vwc_vym_25">link</a></p>
+<p>下載檔案方式</p>
+<pre><code>wget https://archive.cloudera.com/cm5/installer/latest/cloudera-manager-installer.bin
+</code></pre>
+<p>讓該檔案變成可執行檔</p>
+<pre><code>chmod u+x cloudera-manager-installer.bin
+</code></pre>
+<p>執行該檔案</p>
+<pre><code>sudo ./cloudera-manager-installer.bin
+</code></pre>
+<p>若是使用Local的方式則要帶&ndash;skip_repo_package=1 參數</p>
+<pre><code>sudo ./cloudera-manager-installer.bin --skip_repo_package=1
+</code></pre>
+<p>由於好奇cloudera-manager-installer.bin裡面的架構，於是解開了這隻檔案，該binary檔是由 lua 所撰寫，我是第一次看到此語言
+解開方式：</p>
+<pre><code>binwalk cloudera-manager-installer.bin
+</code></pre>
+<p>發現是zip的結構，於是解開它</p>
+<pre><code>mv cloudera-manager-installer.bin cloudera-manager-installer.zip
+unzip cloudera-manager-installer.zip
+</code></pre>
+<p>該binary檔是由 lua 所撰寫，我是第一次看到此語言，程式碼非常多，也不太清楚語言架構，經過了一段時間研究後，程式運行會先偵測OS系統、版本、語系，然後再執行一隻會自動寫入yum、apt設定檔的檔案。</p>
+<p>設定檔設定完成後，主程式在根據設定檔給的網址（http://archive.cloudera.com/cm5/redhat/7/x86_64/cm/5/），進行安裝套件的動作; 若是安裝在Local端（無對外連線），則在運行binary檔案時需要加入 &ndash;skip_repo_package=1 參數，就不會建立repo檔案，直接安裝。</p>
+<p>安裝好cloud-manager後，進入網頁進行其他服務的安裝</p>
+<!-- raw HTML omitted -->
+<p>Installation Path B - Installation Using Cloudera Manager Parcels or Packages</p>
+<p>Path B 的方式是自己手動設定yum、apt的檔案，並且安裝。</p>
+<p>設定好yum、apt的路徑後，以下使用yum為例子：</p>
+<p>安裝java sdk</p>
+<pre><code>sudo yum install oracle-j2sdk1.7
+</code></pre>
+<p>在Server端安裝Cloudera Manager Server</p>
+<pre><code>sudo yum install cloudera-manager-daemons cloudera-manager-server
+</code></pre>
+<p>注意：如果內部資料庫是使用Oracle database，要使用cloudera-manager必須把  CM_JAVA_OPTS  參數調整成  -Xmx4G</p>
+<p>在其他worker端安裝Cloudera Manager Agent</p>
+<pre><code>sudo yum install cloudera-manager-agent cloudera-manager-daemons
+</code></pre>
+<p>全部安裝完成後，將兩個服務運作起來</p>
+<pre><code>sudo service cloudera-scm-agent start
+
+sudo service cloudera-scm-server start
+</code></pre>
+<!-- raw HTML omitted -->
+<p>Installation Path C - Manual Installation Using Cloudera Manager Tarballs</p>
+<p>Path C 的方式比Path B 、Path C 更加複雜，前兩個的方式基本設定完成後隨即使用yum、apt來進行安裝，安裝過程會把cloudera-manager需要的設定設定完成，但是Path C 方法則是把已經可以執行的cloudera-manager打包成一個tarball，通過下載與基本設定，使其可以運作。</p>
+<p>首先先下載tarball檔案</p>
+<p>tarball資訊<a href="https://www.cloudera.com/documentation/enterprise/release-notes/topics/cm_vd.html#CM5.14.0">網址</a></p>
+<p>下載tarball<a href="https://archive.cloudera.com/cm5/cm/5/">網址</a></p>
+<p>下載tarball</p>
+<pre><code>wget https://archive.cloudera.com/cm5/cm/5/cloudera-manager-&lt;OS and OS version&gt;-cm&lt;version&gt;_x86_64.tar.gz
+</code></pre>
+<ul>
+<li>
+<p>創建clouder-manager目錄，並且解壓縮至該目錄下。</p>
+<p>sudo mkdir /opt/cloudera-manager</p>
+<p>sudo tar xzf cloudera-manager*.tar.gz -C /opt/cloudera-manager</p>
+</li>
+</ul>
+<p>新增cloudera-scm使用者帳號</p>
+<pre><code>sudo useradd --system --home=/opt/cloudera-manager/cm-5.6.0/run/cloudera-scm-server --no-create-home --shell=/bin/false --comment &quot;Cloudera SCM User&quot; cloudera-scm
+</code></pre>
+<ul>
+<li>
+<p>建立cloudera-manager-server 儲存資料目錄</p>
+<p>sudo mkdir /var/lib/cloudera-scm-server</p>
+</li>
+</ul>
+<p>給予權限</p>
+<pre><code>sudo chown cloudera-scm:cloudera-scm /var/lib/cloudera-scm-server
+</code></pre>
+<p>設定  server_host  與  server_port  更改  tarball_root/etc/cloudera-scm-agent/config.ini  文件</p>
+<ul>
+<li>
+<p>如果要更改log檔案存放路徑 <a href="https://www.cloudera.com/documentation/enterprise/5-8-x/topics/cm_ig_install_path_c.html#cmig_topic_6_7_2__section_yx3_h2w_wm">網址</a></p>
+</li>
+<li>
+<p>創建Parcel目錄</p>
+</li>
+</ul>
+<p>Server 端設定路徑</p>
+<pre><code>sudo mkdir -p /opt/cloudera/parcel-repo
+
+sudo chown cloudera-scm:cloudera-scm /opt/cloudera/parcel-repo
+</code></pre>
+<p>Worker 端設定路徑</p>
+<pre><code>sudo mkdir -p /opt/cloudera/parcels
+
+sudo chown cloudera-scm:cloudera-scm /opt/cloudera/parcels
+</code></pre>
+<ul>
+<li>cloudera-manager-server 服務啟動</li>
+</ul>
+<p>因為 Path C 是並不是採用yum、apt的方式安裝，因此路徑是在安裝目錄底下</p>
+<pre><code>sudo &lt;安裝目錄路徑&gt;/etc/init.d/cloudera-scm-server start
+</code></pre>
+<p>可以把該目錄複製到系統的  /etc/init.d/  底下，就可以使用  chkconfig cloudera-scm-agent on  設定開機啟動</p>
+<ul>
+<li>相依套件的安裝 <a href="https://www.cloudera.com/documentation/enterprise/5-8-x/topics/cm_ig_install_path_c.html#concept_ycd_vtk_rx">參考</a></li>
+</ul>
+<!-- raw HTML omitted -->
+<p>依安裝某個套件A為例子</p>
+<p>Path A：採自動化安裝，舉例：執行一個腳本，迅速將A套件安裝完畢。</p>
+<p>優點：速度fast，適合展示或迅速架設環境。</p>
+<p>缺點：無法根據使用者的需求去進行安裝。</p>
+<p>Path B：使用 yum 或是 apt 方式進行安裝，舉例：使用套件管理工具(yum, apt)來安裝A套件。</p>
+<p>優點：雖然要設定yum、apt檔案，但是比起Path A 可以根據使用者需求去進行架設。</p>
+<p>缺點：速度medium，過程中需要仰賴套件管理工具(yum, apt,&hellip;)來安裝，如果遇到比較特殊的系統就無法使用此方法。</p>
+<p>Path C：下載tarball方式，再將cloudera-manager-server所需要的環境配置手動配置好，舉例：去官方網站下載A套件的Source code並且進行編譯。</p>
+<p>優點：適合沒有套件管理工具的OS，一步一步完成安裝部署。</p>
+<p>缺點：速度slow，設定步驟繁雜，除非該OS沒有套件管理工具，則才使用此方案。</p>
+</div>
+            </div>
+        </div>
+
+        
+    </div>
+</div>
+
+
+        </div><footer>
+    
+
+    <div class="layui-container">
+        <div class="layui-row">
+            <div class="layui-col-md4 layui-col-sm6 layui-col-xs6">
+		    
+            </div>
+        </div>
+        <div class="layui-row">
+            
+            <div class="layui-col-md4 layui-col-sm6 layui-col-xs12">
+                <a href="/"><p class="footer-url">home</p></a>
+            </div>
+            
+            <div class="layui-col-md4 layui-col-sm6 layui-col-xs12">
+                <a href="/about/"><p class="footer-url">About</p></a>
+            </div>
+            
+        </div>
+    </div>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">Copyright © 2008–2019, Steve Francia and the Hugo Authors; all rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>

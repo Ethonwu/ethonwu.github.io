@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>http://localhost:1313/tags/authentication/</loc>
+    <lastmod>2020-03-16T18:00:22+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:1313/tags/cdh/</loc>
+    <lastmod>2020-03-16T18:00:22+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:1313/tags/cloudera/</loc>
+    <lastmod>2020-03-16T18:00:22+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:1313/tags/hadoop/</loc>
+    <lastmod>2020-03-16T18:00:22+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:1313/tags/hive/</loc>
+    <lastmod>2020-03-16T18:00:22+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:1313/post/hive_sentry_setting/</loc>
+    <lastmod>2020-03-16T18:00:22+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:1313/tags/mit-kerberos/</loc>
+    <lastmod>2020-03-16T18:00:22+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:1313/post/</loc>
+    <lastmod>2020-03-16T18:00:22+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:1313/tags/security/</loc>
+    <lastmod>2020-03-16T18:00:22+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:1313/tags/sentry/</loc>
+    <lastmod>2020-03-16T18:00:22+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:1313/tags/</loc>
+    <lastmod>2020-03-16T18:00:22+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:1313/post/kerberos_cdh_setting/</loc>
+    <lastmod>2020-01-21T18:04:11+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:1313/post/clouadera_manager_install/</loc>
+    <lastmod>2019-04-08T15:55:33+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:1313/tags/cloudera-manager/</loc>
+    <lastmod>2019-04-08T15:55:33+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:1313/about/</loc>
+    <lastmod>2019-02-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:1313/</loc>
+    <lastmod>2019-02-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:1313/tags/linux/</loc>
+    <lastmod>2017-10-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:1313/tags/shell/</loc>
+    <lastmod>2017-10-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:1313/tags/virtualbox/</loc>
+    <lastmod>2017-10-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:1313/post/virtualbox_command/</loc>
+    <lastmod>2017-10-03T00:00:00+00:00</lastmod>
+  </url>
+  
+</urlset>

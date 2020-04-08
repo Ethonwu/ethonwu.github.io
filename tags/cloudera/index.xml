@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Cloudera on Ethon Blog</title>
+    <link>http://localhost:1313/tags/cloudera/</link>
+    <description>Recent content in Cloudera on Ethon Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 16 Mar 2020 18:00:22 +0800</lastBuildDate>
+    
+	<atom:link href="http://localhost:1313/tags/cloudera/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Hive Sentry Setting</title>
+      <link>http://localhost:1313/post/hive_sentry_setting/</link>
+      <pubDate>Mon, 16 Mar 2020 18:00:22 +0800</pubDate>
+      
+      <guid>http://localhost:1313/post/hive_sentry_setting/</guid>
+      <description>如何在 Hive 上面整合 Sentry 與 Kerberos   上次文章介紹完 Kerberos 後，此章節為如何在 Hive 上面針對不同的 Table 根據不同的 Principle 建立權限
+  為什麼需要這個？
+  若是沒有做好權限的管理，那麼任何一個 User 便可以去對任意的 Table 進行修改，會造成許多問題
+ OS : CentOS 7 結點數：3 CM 版本：5.16.2 CDH 版本：5.16.2 叢集資訊：     Hostname IP     all.asia-east1-a.c.fair-terminus-264703.internal all 10.140.0.2    大致流程  進入 Cloudera Manager 更改設定檔 進入 beeline 進行 Table 權限的控管  進入 Cloudera Manager ，建立 Hive 臨時用的特權帳號 1.</description>
+    </item>
+    
+    <item>
+      <title>Kerberos CDH Setting</title>
+      <link>http://localhost:1313/post/kerberos_cdh_setting/</link>
+      <pubDate>Tue, 21 Jan 2020 18:04:11 +0800</pubDate>
+      
+      <guid>http://localhost:1313/post/kerberos_cdh_setting/</guid>
+      <description>當 CDH 的叢集服務架設好後，即便有了基本的權限設定，但是在 安全性 上面仍然有很多問題，因此 Cloudera Manager 將各個有 Kerberos 功能的 Component 整合在一起，設定方式只要透過 Cloudera Manager 設定即可，並不需要自己生成某個 Component 的 Principal，Cloudera Manager 會自動去處理這些事情，因此方便了許多，不用一個一個 Component 去進行設定。
+  這篇文章為 如何安裝 Kerberos 並且透過 Cloudera Manager 去整合 CDH 裡面的 Component，前期的安裝建置過程直接跳過，如果需要安裝建置的文章可以參考這篇（還沒寫）
+  OS 架構  OS : CentOS 7 結點數：3 CM 版本：5.16.2 CDH 版本：5.16.2 叢集資訊：     Hostname IP     edgenode.us-central1-a.c.still-toolbox-265706.internal 10.128.0.2   all-in-one-node1.us-central1-c.c.still-toolbox-265706.internal 10.128.0.3   all-in-one-node2.us-central1-b.c.still-toolbox-265706.internal 10.</description>
+    </item>
+    
+  </channel>
+</rss>
