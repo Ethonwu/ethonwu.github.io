@@ -6,29 +6,10 @@
     <description>Recent content on Ethon Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 16 May 2021 20:27:19 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 28 Feb 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>Post_test</title>
-      <link>http://localhost:1313/post_test/</link>
-      <pubDate>Sun, 16 May 2021 20:27:19 +0800</pubDate>
-      
-      <guid>http://localhost:1313/post_test/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Post_test</title>
-      <link>http://localhost:1313/post/post_test/</link>
-      <pubDate>Sun, 16 May 2021 20:26:21 +0800</pubDate>
-      
-      <guid>http://localhost:1313/post/post_test/</guid>
-      <description>ewkwekm mvwnklwneklwm wvnwejklwen&amp;rsquo;ewn
-weiofwoem df koenkvm </description>
-    </item>
     
     <item>
       <title>Hive Sentry Setting</title>
