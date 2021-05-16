@@ -102,4 +102,28 @@
     <lastmod>2017-10-03T00:00:00+00:00</lastmod>
   </url>
   
+  <url>
+    <loc>http://localhost:1313/tags/audit/</loc>
+  </url>
+  
+  <url>
+    <loc>http://localhost:1313/tags/elasticsearch/</loc>
+  </url>
+  
+  <url>
+    <loc>http://localhost:1313/tags/monitoring/</loc>
+  </url>
+  
+  <url>
+    <loc>http://localhost:1313/tags/packetbeat/</loc>
+  </url>
+  
+  <url>
+    <loc>http://localhost:1313/tags/query/</loc>
+  </url>
+  
+  <url>
+    <loc>http://localhost:1313/post/elasticsearch_packetbeat/</loc>
+  </url>
+  
 </urlset>

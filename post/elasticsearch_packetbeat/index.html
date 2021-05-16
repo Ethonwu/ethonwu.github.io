@@ -1,0 +1,501 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Ethon Blog - 透過 Packetbeat 來監控 Elasticsearch 查詢記錄 </title>
+
+    
+    
+    <meta content="audit, Elasticsearch, Packetbeat, Query, Monitoring" name="keywords">
+    
+    <meta content="Ethon Blog - 透過 Packetbeat 來監控 Elasticsearch 查詢記錄" name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+
+    
+
+    
+
+    
+    
+    <script type="text/javascript" async
+        src="/mathjax-3.0.0/tex-mml-chtml.js">
+    </script>
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src="/layui/layui.js"></script>
+
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    <link rel="stylesheet" async href="/font-awesome-4.7.0/css/font-awesome.min.css">
+    <script src="/self/js/lazysizes.min.js" async></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+    
+    <a class="nav-self-logo" href="/">
+        Ethon Blog
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        <li class="layui-nav-item" id="nav_big"><a href="/post/">Posts</a></li>
+        
+
+        
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/about/">About</a></li>
+            
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                <dd><a href="/post/">Posts</a></dd>
+                
+
+                
+                    
+                        <dd><a href="/about/">About</a></dd>
+                    
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md12 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="layui-elem-quote markdown-body single-title" >
+                    <h1>透過 Packetbeat 來監控 Elasticsearch 查詢記錄</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 24px; vertical-align: -2px;"></i>
+    <span>0001-01-01</span>
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 0px;"></i>
+    
+        <a href="/tags/audit">
+            <span class="layui-badge" style="vertical-align: 2px;">audit</span>
+        </a>
+    
+        <a href="/tags/elasticsearch">
+            <span class="layui-badge" style="vertical-align: 2px;">Elasticsearch</span>
+        </a>
+    
+        <a href="/tags/packetbeat">
+            <span class="layui-badge" style="vertical-align: 2px;">Packetbeat</span>
+        </a>
+    
+        <a href="/tags/query">
+            <span class="layui-badge" style="vertical-align: 2px;">Query</span>
+        </a>
+    
+        <a href="/tags/monitoring">
+            <span class="layui-badge" style="vertical-align: 2px;">Monitoring</span>
+        </a>
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <h1 id="透過-packetbeat-來監控-elasticsearch-查詢記錄">透過 Packetbeat 來監控 Elasticsearch 查詢記錄</h1>
+<ul>
+<li>最近在摸索 Elastic 的一些工具，因緣際會看到了有一個 beat 叫做 <strong>Packetbeat</strong> ，他可以去監控網路有關的資料，並且將其送到 logstash ，最後轉發到 Elasticsearch 上，透過 Kibana 做一些可視化的應用，於是找到了官方有寫得一篇文章： <a href="https://www.elastic.co/blog/monitoring-the-search-queries">Monitoring the Search Queries</a> ，雖然是 2016 的文章，但是看完文章後，覺得很有興趣，因此寫了這篇文章來實作他裡面的步驟以及細節。</li>
+</ul>
+<h1 id="架構以及運作過程">架構以及運作過程</h1>
+<ul>
+<li>首先我們會有一個 Elasticsearch 的正式環境，並且會有一些 Application 會去定期的對 Elasticsearch 叢集打 Search 的 API 做查詢，然後我們透過 Packetbeat 去監聽 Application 送過去 正式環境 Elasticsearch 叢集的封包，Packetbeat 再將封包送去 Logstash 進行處理，將有 Search API  相關的封包整理出來，送到 監控專用的 Elasticsearch 上，如下圖所示:</li>
+</ul>
+<p><img src="/img/packetbeat_query_dashboard/packetbeat_arch.png" alt="1"></p>
+<h1 id="架設監控-elasticsearch-查詢記錄所需環境">架設監控 Elasticsearch 查詢記錄所需環境</h1>
+<ul>
+<li>這邊的環境是根據已經有 Elasticsearch 和 Kibana 環境，因此不會介紹如何運行 Elasticsearch 和 Kibana</li>
+</ul>
+<h2 id="環境介紹">環境介紹</h2>
+<ul>
+<li>OS : CentOS7</li>
+<li>ES Cluster : 2 ( 一個為主要的 ES ，另一個為存放監控資料得 ES )</li>
+<li>ELK : 6.4.3</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Hostname</th>
+<th>IP</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>es1</td>
+<td>192.168.30.171</td>
+<td>主要的 ES 中的 Ingest node 在這邊安裝 Packetbeat</td>
+</tr>
+<tr>
+<td>es4</td>
+<td>192.168.30.174</td>
+<td>Monitoring 用的 Logstash</td>
+</tr>
+<tr>
+<td>localhost</td>
+<td>192.168.30.39</td>
+<td>Monitoring 用的 Elasticsearch &amp; Kibana</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>這邊使用 rpm 安裝的原因是比起 tarball 的方式，比較好管理版本，以及 rpm 透過 systemd 去管理，比較不用在寫啟動的腳本</li>
+</ul>
+<ul>
+<li>Packetbeat 6.4.3 <a href="https://www.elastic.co/downloads/past-releases/packetbeat-6-4-3">下載頁面</a></li>
+<li>Logstash 6.4.3 <a href="https://www.elastic.co/downloads/past-releases/logstash-6-4-3">下載頁面</a></li>
+<li>根據上面網站內容下載 rpm 套件並且進行安裝</li>
+</ul>
+<h4 id="1-安裝-packetbeat-所需套件">1. 安裝 Packetbeat 所需套件</h4>
+<p>進入 es1 安裝 Packetbeat 和相依套件</p>
+<pre><code>yum install libpcap -y
+wget https://artifacts.elastic.co/downloads/beats/packetbeat/packetbeat-6.4.3-x86_64.rpm
+rpm -ivh packetbeat-6.4.3-x86_64.rpm
+</code></pre>
+<p>進入 es4 安裝 Logstash</p>
+<pre><code>wget https://artifacts.elastic.co/downloads/logstash/logstash-6.4.3.rpm
+rpm -ivh logstash-6.4.3.rpm
+</code></pre>
+<h4 id="2-設定-logstash-的設定檔">2. 設定 Logstash 的設定檔</h4>
+<ul>
+<li>
+<p>使用 rpm 安裝的 Logstash 目錄資訊：</p>
+<p>設定檔路徑在 /etc/logstash/ 底下</p>
+<p>bin 檔放在   /usr/share/logstash/ 底下</p>
+<p>log 檔放在   /var/log/logstash/ 底下</p>
+</li>
+</ul>
+<hr>
+<ul>
+<li>
+<p>這邊主要是接收來自 Packetbeat 傳送過來的資料，並且解析資料取有 search API 的資料</p>
+<p>cat /etc/logstash/conf.d/sniff_search.conf</p>
+<p>input {
+beats {
+port =&gt; 5044
+}
+}
+filter {
+if &ldquo;search&rdquo; in [request]{
+grok {
+match =&gt; { &ldquo;request&rdquo; =&gt; &ldquo;.<em>\n{(?&lt;query_body&gt;.</em>)&quot;}
+}
+grok {
+match =&gt; { &ldquo;path&rdquo; =&gt; &ldquo;/(?<!-- raw HTML omitted -->.*)/_search&rdquo;}
+}
+if [index] {
+}
+else {
+mutate {
+add_field  =&gt; { &ldquo;index&rdquo; =&gt; &ldquo;All&rdquo; }
+}
+}
+mutate {
+update  =&gt; { &ldquo;query_body&rdquo; =&gt; &ldquo;{%{query_body}&rdquo; }
+}
+}
+}
+output {
+if &ldquo;search&rdquo; in [request] and &ldquo;ignore_unmapped&rdquo; not in [query_body]{
+elasticsearch {
+hosts =&gt; &ldquo;192.168.30.39:9200&rdquo;
+index =&gt; &ldquo;es-search-query-%{+YYYY.MM}&rdquo;
+}
+}
+}</p>
+</li>
+<li>
+<p>input 的部分，開啟 listen 的 Port，後面設定 Packetbeat 時，指定到 Logstash 的 Port 要一致</p>
+</li>
+<li>
+<p>filter 的部分，主要提取 search 相關的 request</p>
+</li>
+<li>
+<p>output 的部分，需要設定 Monitoring 用的 Elasticsearch 的 Ingest node 的 IP 、Port 和 index 名稱</p>
+</li>
+</ul>
+<hr>
+<p>設定完成後，透過 systemd 把服務啟動</p>
+<pre><code>systemctl start logstash
+systemctl enable logstash
+</code></pre>
+<p>查看 log 檔，看服務有沒有順利運作</p>
+<pre><code>root@es4:~# tailf /var/log/logstash/logstash-plain.log
+[2021-05-16T03:43:12,342][WARN ][logstash.outputs.elasticsearch] Detected a 6.x and above cluster: the `type` event field won't be used to determine the document _type {:es_version=&gt;6}
+[2021-05-16T03:43:12,384][INFO ][logstash.outputs.elasticsearch] New Elasticsearch output {:class=&gt;&quot;LogStash::Outputs::ElasticSearch&quot;, :hosts=&gt;[&quot;//192.168.30.39:9200&quot;]}
+[2021-05-16T03:43:12,418][INFO ][logstash.outputs.elasticsearch] Using mapping template from {:path=&gt;nil}
+[2021-05-16T03:43:12,443][INFO ][logstash.outputs.elasticsearch] Attempting to install template {:manage_template=&gt;{&quot;template&quot;=&gt;&quot;logstash-*&quot;, &quot;version&quot;=&gt;60001, &quot;settings&quot;=&gt;{&quot;index.refresh_interval&quot;=&gt;&quot;5s&quot;}, &quot;mappings&quot;=&gt;{&quot;_default_&quot;=&gt;{&quot;dynamic_templates&quot;=&gt;[{&quot;message_field&quot;=&gt;{&quot;path_match&quot;=&gt;&quot;message&quot;, &quot;match_mapping_type&quot;=&gt;&quot;string&quot;, &quot;mapping&quot;=&gt;{&quot;type&quot;=&gt;&quot;text&quot;, &quot;norms&quot;=&gt;false}}}, {&quot;string_fields&quot;=&gt;{&quot;match&quot;=&gt;&quot;*&quot;, &quot;match_mapping_type&quot;=&gt;&quot;string&quot;, &quot;mapping&quot;=&gt;{&quot;type&quot;=&gt;&quot;text&quot;, &quot;norms&quot;=&gt;false, &quot;fields&quot;=&gt;{&quot;keyword&quot;=&gt;{&quot;type&quot;=&gt;&quot;keyword&quot;, &quot;ignore_above&quot;=&gt;256}}}}}], &quot;properties&quot;=&gt;{&quot;@timestamp&quot;=&gt;{&quot;type&quot;=&gt;&quot;date&quot;}, &quot;@version&quot;=&gt;{&quot;type&quot;=&gt;&quot;keyword&quot;}, &quot;geoip&quot;=&gt;{&quot;dynamic&quot;=&gt;true, &quot;properties&quot;=&gt;{&quot;ip&quot;=&gt;{&quot;type&quot;=&gt;&quot;ip&quot;}, &quot;location&quot;=&gt;{&quot;type&quot;=&gt;&quot;geo_point&quot;}, &quot;latitude&quot;=&gt;{&quot;type&quot;=&gt;&quot;half_float&quot;}, &quot;longitude&quot;=&gt;{&quot;type&quot;=&gt;&quot;half_float&quot;}}}}}}}}
+[2021-05-16T03:43:12,509][INFO ][logstash.outputs.elasticsearch] Installing elasticsearch template to _template/logstash
+[2021-05-16T03:43:13,254][INFO ][logstash.inputs.beats    ] Beats inputs: Starting input listener {:address=&gt;&quot;0.0.0.0:5044&quot;}
+[2021-05-16T03:43:13,291][INFO ][logstash.pipeline        ] Pipeline started successfully {:pipeline_id=&gt;&quot;main&quot;, :thread=&gt;&quot;#&lt;Thread:0xf7d1d38 run&gt;&quot;}
+[2021-05-16T03:43:13,360][INFO ][logstash.agent           ] Pipelines running {:count=&gt;1, :running_pipelines=&gt;[:main], :non_running_pipelines=&gt;[]}
+[2021-05-16T03:43:13,472][INFO ][org.logstash.beats.Server] Starting server on port: 5044
+[2021-05-16T03:43:13,791][INFO ][logstash.agent           ] Successfully started Logstash API endpoint {:port=&gt;9600}
+</code></pre>
+<h4 id="3-設定-packetbeat-的設定檔">3. 設定 Packetbeat 的設定檔</h4>
+<ul>
+<li>
+<p>使用 rpm 安裝的 Packetbeat 目錄資訊：</p>
+<p>設定檔路徑在 /etc/packetbeat/ 底下</p>
+<p>bin 檔放在   /usr/share/packetbeat/ 底下</p>
+<p>log 檔放在   /var/log/packetbeat/ 底下</p>
+</li>
+</ul>
+<hr>
+<ul>
+<li>
+<p>編輯 /etc/packetbeat/packetbeat.yml 設定檔，指定監聽的網卡以及 Port 號</p>
+<p>root@es1:~# cat /etc/packetbeat/packetbeat.yml | grep -v &ldquo;#|^$&rdquo;
+packetbeat.interfaces.device: eth0
+packetbeat.flows:
+timeout: 30s
+period: 10s
+packetbeat.protocols:</p>
+<ul>
+<li>type: http
+ports: [9200]
+send_request: true
+include_body_for: [&ldquo;application/json&rdquo;, &ldquo;x-www-form-urlencoded&rdquo;]
+setup.template.settings:
+index.number_of_shards: 1
+setup.kibana:
+host: &ldquo;192.168.30.39:5601&rdquo;
+output.logstash:
+hosts: [&ldquo;192.168.30.174:5044&rdquo;]</li>
+</ul>
+</li>
+</ul>
+<p>這邊使用 grep 將不必要的註解與空格過濾掉</p>
+<ul>
+<li>packetbeat.interfaces.device 這邊主要是設定你要 <strong>監聽</strong> 的網卡名稱，可以透過 <code>ip addr</code> 或是 <code>ifconfig</code> 查看</li>
+<li>packetbeat.protocols 在 <strong>原始</strong> 的設定檔中，有很多範例，不過我們只要做監聽 HTTP 的協定，因此可以將其他的協定助解掉，並且額外新增 send_request 和 include_body_for 的參數</li>
+<li>output.elasticsearch 因為是丟到 logstash 做過濾，因此可以將此註解</li>
+</ul>
+<hr>
+<p>設定完成後，透過 systemd 把服務啟動</p>
+<pre><code>systemctl start packetbeat
+systemctl enable packetbeat
+</code></pre>
+<p>查看 log 檔，看服務有沒有順利運作</p>
+<pre><code>root@es1:~# tailf /var/log/packetbeat/packetbeat
+2021-05-16T04:13:43.050Z	INFO	instance/beat.go:383	packetbeat start running.
+2021-05-16T04:13:43.050Z	INFO	[monitoring]	log/log.go:114	Starting metrics logging every 30s
+2021-05-16T04:13:45.563Z	INFO	pipeline/output.go:95	Connecting to backoff(async(tcp://192.168.30.174:5044))
+2021-05-16T04:13:45.563Z	INFO	pipeline/output.go:105	Connection to backoff(async(tcp://192.168.30.174:5044)) established
+2021-05-16T04:14:13.053Z	INFO	[monitoring]	log/log.go:141	Non-zero metrics in the last 30s	{&quot;monitoring&quot;: {&quot;metrics&quot;: {&quot;beat&quot;:{&quot;cpu&quot;:{&quot;system&quot;:{&quot;ticks&quot;:80,&quot;time&quot;:{&quot;ms&quot;:88}},&quot;total&quot;:{&quot;ticks&quot;:370,&quot;time&quot;:{&quot;ms&quot;:378},&quot;value&quot;:370},&quot;user&quot;:{&quot;ticks&quot;:290,&quot;time&quot;:{&quot;ms&quot;:290}}},&quot;info&quot;:{&quot;ephemeral_id&quot;:&quot;27c5becc-8973-4f98-b7af-559227ca1e91&quot;,&quot;uptime&quot;:{&quot;ms&quot;:30015}},&quot;memstats&quot;:{&quot;gc_next&quot;:39275776,&quot;memory_alloc&quot;:28508712,&quot;memory_total&quot;:50686008,&quot;rss&quot;:54685696}},&quot;libbeat&quot;:{&quot;config&quot;:{&quot;module&quot;:{&quot;running&quot;:0}},&quot;output&quot;:{&quot;events&quot;:{&quot;acked&quot;:173,&quot;batches&quot;:13,&quot;total&quot;:173},&quot;read&quot;:{&quot;bytes&quot;:78},&quot;type&quot;:&quot;logstash&quot;,&quot;write&quot;:{&quot;bytes&quot;:36877}},&quot;pipeline&quot;:{&quot;clients&quot;:2,&quot;events&quot;:{&quot;active&quot;:7,&quot;published&quot;:180,&quot;retry&quot;:4,&quot;total&quot;:180},&quot;queue&quot;:{&quot;acked&quot;:173}}},&quot;system&quot;:{&quot;cpu&quot;:{&quot;cores&quot;:2},&quot;load&quot;:{&quot;1&quot;:0.05,&quot;15&quot;:0.05,&quot;5&quot;:0.03,&quot;norm&quot;:{&quot;1&quot;:0.025,&quot;15&quot;:0.025,&quot;5&quot;:0.015}}}}}}
+2021-05-16T04:14:43.052Z	INFO	[monitoring]	log/log.go:141	Non-zero metrics in the last 30s	{&quot;monitoring&quot;: {&quot;metrics&quot;: {&quot;beat&quot;:{&quot;cpu&quot;:{&quot;system&quot;:{&quot;ticks&quot;:130,&quot;time&quot;:{&quot;ms&quot;:43}},&quot;total&quot;:{&quot;ticks&quot;:550,&quot;time&quot;:{&quot;ms&quot;:181},&quot;value&quot;:550},&quot;user&quot;:{&quot;ticks&quot;:420,&quot;time&quot;:{&quot;ms&quot;:138}}},&quot;info&quot;:{&quot;ephemeral_id&quot;:&quot;27c5becc-8973-4f98-b7af-559227ca1e91&quot;,&quot;uptime&quot;:{&quot;ms&quot;:60015}},&quot;memstats&quot;:{&quot;gc_next&quot;:39395904,&quot;memory_alloc&quot;:26895448,&quot;memory_total&quot;:84383056,&quot;rss&quot;:7766016}},&quot;libbeat&quot;:{&quot;config&quot;:{&quot;module&quot;:{&quot;running&quot;:0}},&quot;output&quot;:{&quot;events&quot;:{&quot;acked&quot;:268,&quot;batches&quot;:16,&quot;total&quot;:268},&quot;read&quot;:{&quot;bytes&quot;:96},&quot;write&quot;:{&quot;bytes&quot;:50423}},&quot;pipeline&quot;:{&quot;clients&quot;:2,&quot;events&quot;:{&quot;active&quot;:7,&quot;published&quot;:268,&quot;total&quot;:268},&quot;queue&quot;:{&quot;acked&quot;:268}}},&quot;system&quot;:{&quot;load&quot;:{&quot;1&quot;:0.03,&quot;15&quot;:0.05,&quot;5&quot;:0.03,&quot;norm&quot;:{&quot;1&quot;:0.015,&quot;15&quot;:0.025,&quot;5&quot;:0.015}}}}}}
+2021-05-16T04:15:13.052Z	INFO	[monitoring]	log/log.go:141	Non-zero metrics in the last 30s	{&quot;monitoring&quot;: {&quot;metrics&quot;: {&quot;beat&quot;:{&quot;cpu&quot;:{&quot;system&quot;:{&quot;ticks&quot;:160,&quot;time&quot;:{&quot;ms&quot;:33}},&quot;total&quot;:{&quot;ticks&quot;:730,&quot;time&quot;:{&quot;ms&quot;:180},&quot;value&quot;:730},&quot;user&quot;:{&quot;ticks&quot;:570,&quot;time&quot;:{&quot;ms&quot;:147}}},&quot;info&quot;:{&quot;ephemeral_id&quot;:&quot;27c5becc-8973-4f98-b7af-559227ca1e91&quot;,&quot;uptime&quot;:{&quot;ms&quot;:90015}},&quot;memstats&quot;:{&quot;gc_next&quot;:37809696,&quot;memory_alloc&quot;:21246240,&quot;memory_total&quot;:115570856}},&quot;libbeat&quot;:{&quot;config&quot;:{&quot;module&quot;:{&quot;running&quot;:0}},&quot;output&quot;:{&quot;events&quot;:{&quot;acked&quot;:277,&quot;batches&quot;:14,&quot;total&quot;:277},&quot;read&quot;:{&quot;bytes&quot;:84},&quot;write&quot;:{&quot;bytes&quot;:48730}},&quot;pipeline&quot;:{&quot;clients&quot;:2,&quot;events&quot;:{&quot;active&quot;:7,&quot;published&quot;:277,&quot;total&quot;:277},&quot;queue&quot;:{&quot;acked&quot;:277}}},&quot;system&quot;:{&quot;load&quot;:{&quot;1&quot;:0.02,&quot;15&quot;:0.05,&quot;5&quot;:0.02,&quot;norm&quot;:{&quot;1&quot;:0.01,&quot;15&quot;:0.025,&quot;5&quot;:0.01}}}}}}
+2021-05-16T04:15:43.052Z	INFO	[monitoring]	log/log.go:141	Non-zero metrics in the last 30s	{&quot;monitoring&quot;: {&quot;metrics&quot;: {&quot;beat&quot;:{&quot;cpu&quot;:{&quot;system&quot;:{&quot;ticks&quot;:190,&quot;time&quot;:{&quot;ms&quot;:27}},&quot;total&quot;:{&quot;ticks&quot;:910,&quot;time&quot;:{&quot;ms&quot;:180},&quot;value&quot;:910},&quot;user&quot;:{&quot;ticks&quot;:720,&quot;time&quot;:{&quot;ms&quot;:153}}},&quot;info&quot;:{&quot;ephemeral_id&quot;:&quot;27c5becc-8973-4f98-b7af-559227ca1e91&quot;,&quot;uptime&quot;:{&quot;ms&quot;:120015}},&quot;memstats&quot;:{&quot;gc_next&quot;:39561632,&quot;memory_alloc&quot;:20324400,&quot;memory_total&quot;:149361064}},&quot;libbeat&quot;:{&quot;config&quot;:{&quot;module&quot;:{&quot;running&quot;:0}},&quot;output&quot;:{&quot;events&quot;:{&quot;acked&quot;:275,&quot;batches&quot;:16,&quot;total&quot;:275},&quot;read&quot;:{&quot;bytes&quot;:96},&quot;write&quot;:{&quot;bytes&quot;:50418}},&quot;pipeline&quot;:{&quot;clients&quot;:2,&quot;events&quot;:{&quot;active&quot;:7,&quot;published&quot;:275,&quot;total&quot;:275},&quot;queue&quot;:{&quot;acked&quot;:275}}},&quot;system&quot;:{&quot;load&quot;:{&quot;1&quot;:0.01,&quot;15&quot;:0.05,&quot;5&quot;:0.02,&quot;norm&quot;:{&quot;1&quot;:0.005,&quot;15&quot;:0.025,&quot;5&quot;:0.01}}}}}}
+2021-05-16T04:16:13.052Z	INFO	[monitoring]	log/log.go:141	Non-zero metrics in the last 30s	{&quot;monitoring&quot;: {&quot;metrics&quot;: {&quot;beat&quot;:{&quot;cpu&quot;:{&quot;system&quot;:{&quot;ticks&quot;:220,&quot;time&quot;:{&quot;ms&quot;:37}},&quot;total&quot;:{&quot;ticks&quot;:1060,&quot;time&quot;:{&quot;ms&quot;:154},&quot;value&quot;:1060},&quot;user&quot;:{&quot;ticks&quot;:840,&quot;time&quot;:{&quot;ms&quot;:117}}},&quot;info&quot;:{&quot;ephemeral_id&quot;:&quot;27c5becc-8973-4f98-b7af-559227ca1e91&quot;,&quot;uptime&quot;:{&quot;ms&quot;:150016}},&quot;memstats&quot;:{&quot;gc_next&quot;:39586048,&quot;memory_alloc&quot;:35451432,&quot;memory_total&quot;:183189984}},&quot;libbeat&quot;:{&quot;config&quot;:{&quot;module&quot;:{&quot;running&quot;:0}},&quot;output&quot;:{&quot;events&quot;:{&quot;acked&quot;:281,&quot;batches&quot;:16,&quot;total&quot;:281},&quot;read&quot;:{&quot;bytes&quot;:96},&quot;write&quot;:{&quot;bytes&quot;:50740}},&quot;pipeline&quot;:{&quot;clients&quot;:2,&quot;events&quot;:{&quot;active&quot;:5,&quot;published&quot;:279,&quot;total&quot;:279},&quot;queue&quot;:{&quot;acked&quot;:281}}},&quot;system&quot;:{&quot;load&quot;:{&quot;1&quot;:0.01,&quot;15&quot;:0.05,&quot;5&quot;:0.02,&quot;norm&quot;:{&quot;1&quot;:0.005,&quot;15&quot;:0.025,&quot;5&quot;:0.01}}}}}}
+2021-05-16T04:16:43.052Z	INFO	[monitoring]	log/log.go:141	Non-zero metrics in the last 30s	{&quot;monitoring&quot;: {&quot;metrics&quot;: {&quot;beat&quot;:{&quot;cpu&quot;:{&quot;system&quot;:{&quot;ticks&quot;:260,&quot;time&quot;:{&quot;ms&quot;:32}},&quot;total&quot;:{&quot;ticks&quot;:1250,&quot;time&quot;:{&quot;ms&quot;:178},&quot;value&quot;:1250},&quot;user&quot;:{&quot;ticks&quot;:990,&quot;time&quot;:{&quot;ms&quot;:146}}},&quot;info&quot;:{&quot;ephemeral_id&quot;:&quot;27c5becc-8973-4f98-b7af-559227ca1e91&quot;,&quot;uptime&quot;:{&quot;ms&quot;:180015}},&quot;memstats&quot;:{&quot;gc_next&quot;:39599648,&quot;memory_alloc&quot;:33983304,&quot;memory_total&quot;:218398968,&quot;rss&quot;:1232896}},&quot;libbeat&quot;:{&quot;config&quot;:{&quot;module&quot;:{&quot;running&quot;:0}},&quot;output&quot;:{&quot;events&quot;:{&quot;acked&quot;:275,&quot;batches&quot;:17,&quot;total&quot;:275},&quot;read&quot;:{&quot;bytes&quot;:102},&quot;write&quot;:{&quot;bytes&quot;:50391}},&quot;pipeline&quot;:{&quot;clients&quot;:2,&quot;events&quot;:{&quot;active&quot;:5,&quot;published&quot;:275,&quot;total&quot;:275},&quot;queue&quot;:{&quot;acked&quot;:275}}},&quot;system&quot;:{&quot;load&quot;:{&quot;1&quot;:0,&quot;15&quot;:0.05,&quot;5&quot;:0.01,&quot;norm&quot;:{&quot;1&quot;:0,&quot;15&quot;:0.025,&quot;5&quot;:0.005}}}}}}
+</code></pre>
+<h4 id="4-進入-monitoring-用的-kibana-查看-或是使用-rest-對-elasticsearch-做查詢-有沒有資料進來">4. 進入 Monitoring 用的 Kibana 查看 或是使用 Rest 對 Elasticsearch 做查詢 有沒有資料進來</h4>
+<ul>
+<li>Kibana 查看有沒有資料</li>
+</ul>
+<p><img src="/img/packetbeat_query_dashboard/kibana_data.png" alt="2"></p>
+<p>或是</p>
+<ul>
+<li>
+<p>對 Elasticsearch 做查詢</p>
+<p>root@es1:~# curl http://192.168.30.39:9200/es-search-query-2021.05/_count | jq .
+% Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+Dload  Upload   Total   Spent    Left  Speed
+100    74  100    74    0     0  18412      0 &ndash;:&ndash;:&ndash; &ndash;:&ndash;:&ndash; &ndash;:&ndash;:&ndash; 24666
+{
+&ldquo;count&rdquo;: 7839,
+&ldquo;_shards&rdquo;: {
+&ldquo;total&rdquo;: 5,
+&ldquo;successful&rdquo;: 5,
+&ldquo;skipped&rdquo;: 0,
+&ldquo;failed&rdquo;: 0
+}
+}</p>
+</li>
+</ul>
+<h4 id="5-驗證資料是否有被監聽進去-monitor-es-內">5. 驗證資料是否有被監聽進去 Monitor ES 內</h4>
+<ul>
+<li>
+<p>簡單的對 es1 上面的 train index 查詢一筆資料</p>
+<p>root@es1:~# curl -XGET &ldquo;http://192.168.30.171:9200/train/_search&rdquo; -H &lsquo;Content-Type: application/json&rsquo; -d&rsquo;</p>
+<blockquote>
+<p>{
+&ldquo;query&rdquo;: {
+&ldquo;match_all&rdquo;: {}
+},
+&ldquo;size&rdquo;: 1
+}&rsquo; | jq .
+% Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+Dload  Upload   Total   Spent    Left  Speed
+100   347  100   293  100    54  53486   9857 &ndash;:&ndash;:&ndash; &ndash;:&ndash;:&ndash; &ndash;:&ndash;:&ndash; 58600
+{
+&ldquo;took&rdquo;: 3,
+&ldquo;timed_out&rdquo;: false,
+&ldquo;_shards&rdquo;: {
+&ldquo;total&rdquo;: 5,
+&ldquo;successful&rdquo;: 5,
+&ldquo;skipped&rdquo;: 0,
+&ldquo;failed&rdquo;: 0
+},
+&ldquo;hits&rdquo;: {
+&ldquo;total&rdquo;: 4,
+&ldquo;max_score&rdquo;: 1,
+&ldquo;hits&rdquo;: [
+{
+&ldquo;_index&rdquo;: &ldquo;train&rdquo;,
+&ldquo;_type&rdquo;: &ldquo;_doc&rdquo;,
+&ldquo;_id&rdquo;: &ldquo;2&rdquo;,
+&ldquo;_score&rdquo;: 1,
+&ldquo;_source&rdquo;: {
+&ldquo;id&rdquo;: &ldquo;data2&rdquo;,
+&ldquo;post_date&rdquo;: &ldquo;2019-05-27T17:25:30&rdquo;,
+&ldquo;context&rdquo;: &ldquo;love dog&rdquo;
+}
+}
+]
+}
+}</p>
+</blockquote>
+</li>
+<li>
+<p>進入 Monitor Kibana 做查詢</p>
+</li>
+</ul>
+<p><img src="/img/packetbeat_query_dashboard/kibana_query_result.png" alt="4"></p>
+<h4 id="6-報表以及-dashboard-的呈現">6. 報表以及 Dashboard 的呈現</h4>
+<ul>
+<li>
+<p>根據之前的參考<a href="https://www.elastic.co/blog/monitoring-the-search-queries">文章</a>，雖然他有在 <a href="https://gist.github.com/JalehD/d85f85a1aa3bbe534bf0aec0a9c69777">Github Gist</a> 提供 Visualization 和 Dashboard ，<strong>但是由於 Kibana 的版本不相容，因此無法匯入</strong>， 因此我在這邊從新繪製與參考文章的 Visualization 和 Dashboard。</p>
+</li>
+<li>
+<p>這是舊版在文章上面的舊 Dashboard 根據此圖，畫在 6 版的 Kibana 上</p>
+</li>
+</ul>
+<p><img src="https://api.contentstack.io/v2/assets/57ac7c03bc5ccd727e689321/download?uid=blta05c984567f25af5" alt="5"></p>
+<ul>
+<li>有分成四張 Visualization</li>
+</ul>
+<h5 id="1-number-of-searches-per-index">1. number-of-searches-per-index</h5>
+<ul>
+<li>使用 Data Table</li>
+<li>Metrics 的部分使用 Count</li>
+<li>Buckets 的部分使用了兩層
+<ul>
+<li>第一層用 Date Histogram 取 @timestamp 欄位</li>
+<li>第二層用 Terms 取 query_body.keyword 欄位</li>
+</ul>
+</li>
+</ul>
+<p><img src="/img/packetbeat_query_dashboard/number-of-searches-per-index.png" alt="6"></p>
+<h5 id="2-count-of-query-per-client">2. count-of-query-per-client</h5>
+<ul>
+<li>使用 Pie</li>
+<li>Metrix 的部分使用 Count</li>
+<li>Buckets 的部分使用了兩層
+<ul>
+<li>第一層用 Terms 取 index.keyword 欄位</li>
+<li>第二層用 Terms 取 client_ip.keyword 欄位</li>
+</ul>
+</li>
+</ul>
+<p><img src="/img/packetbeat_query_dashboard/count-of-query-per-client.png" alt="7"></p>
+<ul>
+<li>可以在 Options 中勾選 Show Labels 顯示 Client IP</li>
+</ul>
+<p><img src="/img/packetbeat_query_dashboard/count-of-query-per-client_lable.png" alt="8"></p>
+<h5 id="3-responsetime-graph">3. responsetime-graph</h5>
+<ul>
+<li>使用 Line</li>
+<li>Metrix 的部分使用 Average 取 responsetime 欄位</li>
+<li>Buckets 的部分使用了一層
+<ul>
+<li>第一層用 Date Histogram 取 @timestamp 欄位取 2h</li>
+</ul>
+</li>
+</ul>
+<p><img src="/img/packetbeat_query_dashboard/responsetime-graph.png" alt="8"></p>
+<h5 id="4-max-responsetime-per-query">4. Max-Responsetime-per-Query</h5>
+<ul>
+<li>使用 Data Table</li>
+<li>Metrix 的部分使用 Max</li>
+<li>Buckets 的部分使用了一層
+<ul>
+<li>第一層用 Trems 取 query_body.keyword 前五筆</li>
+</ul>
+</li>
+</ul>
+<p><img src="/img/packetbeat_query_dashboard/Max-Responsetime-per-Query.png" alt="9"></p>
+<ul>
+<li>將四張 Visualization 顯示在 Dashboard 上</li>
+</ul>
+<p><img src="/img/packetbeat_query_dashboard/query-analysis.png" alt="10"></p>
+</div>
+            </div>
+        </div>
+
+        
+    </div>
+</div>
+
+
+        </div><footer>
+    
+
+    <div class="layui-container">
+        <div class="layui-row">
+            <div class="layui-col-md4 layui-col-sm6 layui-col-xs6">
+		    
+            </div>
+        </div>
+        <div class="layui-row">
+            
+            <div class="layui-col-md4 layui-col-sm6 layui-col-xs12">
+                <a href="/"><p class="footer-url">home</p></a>
+            </div>
+            
+            <div class="layui-col-md4 layui-col-sm6 layui-col-xs12">
+                <a href="/about/"><p class="footer-url">About</p></a>
+            </div>
+            
+        </div>
+    </div>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">Copyright © 2008–2019, Steve Francia and the Hugo Authors; all rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>
