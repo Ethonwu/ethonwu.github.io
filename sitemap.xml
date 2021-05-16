@@ -3,6 +3,16 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>http://localhost:1313/post/post_test/</loc>
+    <lastmod>2021-05-16T20:26:21+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:1313/post/</loc>
+    <lastmod>2021-05-16T20:26:21+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://localhost:1313/tags/authentication/</loc>
     <lastmod>2020-03-16T18:00:22+08:00</lastmod>
   </url>
@@ -34,11 +44,6 @@
   
   <url>
     <loc>http://localhost:1313/tags/mit-kerberos/</loc>
-    <lastmod>2020-03-16T18:00:22+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://localhost:1313/post/</loc>
     <lastmod>2020-03-16T18:00:22+08:00</lastmod>
   </url>
   
