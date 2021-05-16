@@ -103,6 +103,10 @@
   </url>
   
   <url>
+    <loc>http://localhost:1313/post/post_test/</loc>
+  </url>
+  
+  <url>
     <loc>http://localhost:1313/tags/audit/</loc>
   </url>
   
@@ -124,10 +128,6 @@
   
   <url>
     <loc>http://localhost:1313/post/elasticsearch_packetbeat/</loc>
-  </url>
-  
-  <url>
-    <loc>http://localhost:1313/post/post_test/</loc>
   </url>
   
 </urlset>
