@@ -88,26 +88,6 @@
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/linux/</loc>
-    <lastmod>2017-10-03T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://localhost:1313/tags/shell/</loc>
-    <lastmod>2017-10-03T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://localhost:1313/tags/virtualbox/</loc>
-    <lastmod>2017-10-03T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://localhost:1313/post/virtualbox_command/</loc>
-    <lastmod>2017-10-03T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>http://localhost:1313/tags/audit/</loc>
   </url>
   
