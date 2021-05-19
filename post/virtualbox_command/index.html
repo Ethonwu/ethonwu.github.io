@@ -3,19 +3,16 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Ethon Blog - Posts </title>
+    <title>Ethon Blog - Virtualbox Command Notes </title>
     
     
-    <meta content="Ethon Blog" name="keywords">
+    <meta content="Virtualbox, linux, shell" name="keywords">
     
-    <meta content="Ethon Blog - A website called Ethon Blog" name="description">
+    <meta content="Ethon Blog - Virtualbox Command intro" name="description">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     
 
-    
-        <link href="/post/index.xml" rel="alternate" type="application/rss&#43;xml" title="Ethon Blog" />
-        <link href="/post/index.xml" rel="feed" type="application/rss&#43;xml" title="Ethon Blog" />
     
 
     
@@ -86,30 +83,91 @@ layui.use('element', function(){
 </script>
 
         <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
 
-<main id="main">
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote  markdown-body single-title" >
+                    <h1>Virtualbox Command Notes</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2017-10-03</span>
 
-<div class="layui-fluid list-show" >
-    <div class="layui-row">
-        <div class="layui-col-md6 layui-col-sm12 layui-col-xs12">
-            <div class="list-show-title">
-                <h1>These are my blogs</h1>
-                <h2>and also my life</h2>
+    
+    
+
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/virtualbox/">
+            <span class="layui-badge " style="vertical-align: 2px;">Virtualbox</span>
+        </a>
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+        <a href="/tags/shell/">
+            <span class="layui-badge " style="vertical-align: 2px;">shell</span>
+        </a>
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <h1 id="my-common-use-command">My common use command</h1>
+<h2 id="1list-vm">1.List VM</h2>
+<pre><code>VBoxManage list vms
+</code></pre>
+<h3 id="using-this-will-be-more-clear">Using this will be more clear</h3>
+<pre><code>VBoxManage list vms | sed &quot;s/\&quot;\(.*\)\&quot;.*/\1/&quot;
+</code></pre>
+<h4 id="output">Output:</h4>
+<h3 id="in-my-pc-show-like-this">In my PC show like this:</h3>
+<pre><code>kali
+hadoop-master
+hadoop-slave2
+hadoop-slave3
+hadoop-slave1
+</code></pre>
+<h2 id="2power-onoff-vms">2.Power On/Off VMs</h2>
+<h3 id="this-is-opening-in-gui-mode">This is opening in GUI mode:</h3>
+<pre><code>VBoxManage startvm &quot;&lt;vm name&gt;&quot;
+</code></pre>
+<h3 id="if-you-want-to-open-in-backgrund">If you want to open in backgrund:</h3>
+<pre><code>VBoxHeadless --startvm &quot;&lt;vm name&gt;&quot; --vrde=off &amp; &gt; tmp.txt &amp;
+</code></pre>
+<h3 id="power-off-vm">Power off vm</h3>
+<pre><code>VBoxManage controlvm &quot;&lt;vm name&gt;&quot; poweroff
+</code></pre>
+<h2 id="3import-ova-file-to-virtualbox">3.Import ova file to Virtualbox</h2>
+<pre><code>VBoxManage import  &lt;File/path/and/file.ova&gt; --vsys 0 --vmname &quot;Rename&quot;
+</code></pre>
+</div>
             </div>
         </div>
-        <div class="layui-col-md6 layui-col-sm12 layui-col-xs12" style="text-align:center;">
-            <img src="/self/img/undraw_chat_bot_kli5.png" class="list-title-pic">
-        </div>
-    </div>
-</div>
 
-<div class="layui-container">
-        
-            <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
-        <a href="/post/hive_sentry_setting/">
-            <h2 class="">Hive Sentry Setting</h2>
-        </a>
-        <h3 style="margin-top:10px; margin-bottom:10px"> 
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/hive_sentry_setting/">
+                        <h3 class="">Hive Sentry Setting</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
     <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
     <span>2020-03-16</span>
 
@@ -158,19 +216,15 @@ layui.use('element', function(){
     
 </h3>
 
-        <h3>
-        	
-				Enable MIT Kerberos 後，介紹如何整合 Sentry 透過 Hive Cli 為資料庫或是資料表建立不同的權限。
-			 <a href="/post/hive_sentry_setting/"><span style="color:#01AAED">Read More</span></a>
-        </h3>
-    </blockquote>
-
-    
-            <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
-        <a href="/post/kerberos_cdh_setting/">
-            <h2 class="">Kerberos CDH Setting</h2>
-        </a>
-        <h3 style="margin-top:10px; margin-bottom:10px"> 
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/kerberos_cdh_setting/">
+                        <h3 class="">Kerberos CDH Setting</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
     <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
     <span>2020-01-21</span>
 
@@ -211,19 +265,15 @@ layui.use('element', function(){
     
 </h3>
 
-        <h3>
-        	
-				Cloudera Manager &#43; MIT Kerberos Enable Setting
-			 <a href="/post/kerberos_cdh_setting/"><span style="color:#01AAED">Read More</span></a>
-        </h3>
-    </blockquote>
-
-    
-            <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
-        <a href="/post/clouadera_manager_install/">
-            <h2 class="">Clouadera Manager Three Install Path</h2>
-        </a>
-        <h3 style="margin-top:10px; margin-bottom:10px"> 
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/clouadera_manager_install/">
+                        <h3 class="">Clouadera Manager Three Install Path</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
     <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
     <span>2019-04-08</span>
 
@@ -252,19 +302,15 @@ layui.use('element', function(){
     
 </h3>
 
-        <h3>
-        	
-				Three install Cloudera Manager &amp; CDH ways
-			 <a href="/post/clouadera_manager_install/"><span style="color:#01AAED">Read More</span></a>
-        </h3>
-    </blockquote>
-
-    
-            <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
-        <a href="/post/virtualbox_command/">
-            <h2 class="">Virtualbox Command Notes</h2>
-        </a>
-        <h3 style="margin-top:10px; margin-bottom:10px"> 
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/virtualbox_command/">
+                        <h3 class="">Virtualbox Command Notes</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
     <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
     <span>2017-10-03</span>
 
@@ -293,19 +339,15 @@ layui.use('element', function(){
     
 </h3>
 
-        <h3>
-        	
-				Virtualbox Command intro
-			 <a href="/post/virtualbox_command/"><span style="color:#01AAED">Read More</span></a>
-        </h3>
-    </blockquote>
-
-    
-            <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
-        <a href="/post/elasticsearch_packetbeat/">
-            <h2 class="">透過 Packetbeat 來監控 Elasticsearch 查詢記錄</h2>
-        </a>
-        <h3 style="margin-top:10px; margin-bottom:10px"> 
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/elasticsearch_packetbeat/">
+                        <h3 class="">透過 Packetbeat 來監控 Elasticsearch 查詢記錄</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
     <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
     <span>0001-01-01</span>
 
@@ -342,40 +384,16 @@ layui.use('element', function(){
     
 </h3>
 
-        <h3>
-        	
-				透過 Packetbeat 來監控 Elasticsearch 查詢記錄
-			 <a href="/post/elasticsearch_packetbeat/"><span style="color:#01AAED">Read More</span></a>
-        </h3>
-    </blockquote>
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
 
-    
-
-    
-<div class="pager">
-    <div class="layui-btn-group">
-        <button type="button" class="layui-btn layui-btn-primary layui-btn-sm">
-            <a href="/post/"><i class="layui-icon">&#xe65a;</i></a>
-        </button>
-        
-        <button type="button" class="layui-btn layui-btn-disabled layui-btn-sm">
-            <i class="layui-icon">&#xe603;</i>
-        </button>
-        
-        
-        <button type="button" class="layui-btn layui-btn-disabled layui-btn-sm">
-            <i class="layui-icon">&#xe602;</i>
-        </button>
-        
-        <button type="button" class="layui-btn layui-btn-primary layui-btn-sm">
-            <a href="/post/"><i class="layui-icon">&#xe65b;</i></a>
-        </button>
     </div>
 </div>
-
-</div>
-
-</main>
 
 
         </div><footer>
