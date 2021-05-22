@@ -207,41 +207,41 @@ rpm -ivh logstash-6.4.3.rpm
 <ul>
 <li>
 <p>這邊主要是接收來自 Packetbeat 傳送過來的資料，並且解析資料取有 search API 的資料測試</p>
-<p>cat /etc/logstash/conf.d/sniff_search.conf
+<pre><code>cat /etc/logstash/conf.d/sniff_search.conf
 input {
-beats {
-port =&gt; 5044
-}
+  beats {
+    port =&gt; 5044
+  }
 }
 filter {
-if &ldquo;search&rdquo; in [request]{
-grok {
-match =&gt; { &ldquo;request&rdquo; =&gt; &ldquo;.<em>\n{(?&lt;query_body&gt;.</em>)&quot;}
-}
-grok {
-match =&gt; { &ldquo;path&rdquo; =&gt; &ldquo;/(?<!-- raw HTML omitted -->.*)/_search&rdquo;}
-}
-if [index] {
-}
-else {
-mutate {
-add_field  =&gt; { &ldquo;index&rdquo; =&gt; &ldquo;All&rdquo; }
-}
-}
-mutate {
-update  =&gt; { &ldquo;query_body&rdquo; =&gt; &ldquo;{%{query_body}&rdquo; }
-}
-}
+  if &quot;search&quot; in [request]{
+    grok {
+      match =&gt; { &quot;request&quot; =&gt; &quot;.*\n\{(?&lt;query_body&gt;.*)&quot;}
+    }
+    grok {
+      match =&gt; { &quot;path&quot; =&gt; &quot;\/(?&lt;index&gt;.*)\/_search&quot;}
+    }
+    if [index] {
+    }
+    else {
+      mutate {
+        add_field  =&gt; { &quot;index&quot; =&gt; &quot;All&quot; }
+      }
+    }
+    mutate {
+      update  =&gt; { &quot;query_body&quot; =&gt; &quot;{%{query_body}&quot; }
+    }
+  }
 }
 output {
-if &ldquo;search&rdquo; in [request] and &ldquo;ignore_unmapped&rdquo; not in [query_body]{
-elasticsearch {
-hosts =&gt; &ldquo;192.168.30.39:9200&rdquo;
-index =&gt; &ldquo;es-search-query-%{+YYYY.MM}&rdquo;
+  if &quot;search&quot; in [request] and &quot;ignore_unmapped&quot; not in [query_body]{
+    elasticsearch {
+      hosts =&gt; &quot;192.168.30.39:9200&quot;
+      index =&gt; &quot;es-search-query-%{+YYYY.MM}&quot;
+    }
+  }
 }
-}
-}</p>
-</li>
+</code></pre></li>
 <li>
 <p>input 的部分，開啟 listen 的 Port，後面設定 Packetbeat 時，指定到 Logstash 的 Port 要一致</p>
 </li>
@@ -283,25 +283,23 @@ systemctl enable logstash
 <ul>
 <li>
 <p>編輯 /etc/packetbeat/packetbeat.yml 設定檔，指定監聽的網卡以及 Port 號</p>
-<p>root@es1:~# cat /etc/packetbeat/packetbeat.yml | grep -v &ldquo;#|^$&rdquo;
+<pre><code>root@es1:~# cat /etc/packetbeat/packetbeat.yml | grep -v &quot;#\|^$&quot;
 packetbeat.interfaces.device: eth0
 packetbeat.flows:
-timeout: 30s
-period: 10s
-packetbeat.protocols:</p>
-<ul>
-<li>type: http
-ports: [9200]
-send_request: true
-include_body_for: [&ldquo;application/json&rdquo;, &ldquo;x-www-form-urlencoded&rdquo;]
+  timeout: 30s
+  period: 10s
+packetbeat.protocols:
+- type: http
+  ports: [9200]
+  send_request: true
+  include_body_for: [&quot;application/json&quot;, &quot;x-www-form-urlencoded&quot;]
 setup.template.settings:
-index.number_of_shards: 1
+  index.number_of_shards: 1
 setup.kibana:
-host: &ldquo;192.168.30.39:5601&rdquo;
+  host: &quot;192.168.30.39:5601&quot;
 output.logstash:
-hosts: [&ldquo;192.168.30.174:5044&rdquo;]</li>
-</ul>
-</li>
+  hosts: [&quot;192.168.30.174:5044&quot;]
+</code></pre></li>
 </ul>
 <p>這邊使用 grep 將不必要的註解與空格過濾掉</p>
 <ul>
@@ -336,65 +334,63 @@ systemctl enable packetbeat
 <ul>
 <li>
 <p>對 Elasticsearch 做查詢</p>
-<p>root@es1:~# curl http://192.168.30.39:9200/es-search-query-2021.05/_count | jq .
-% Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-Dload  Upload   Total   Spent    Left  Speed
-100    74  100    74    0     0  18412      0 &ndash;:&ndash;:&ndash; &ndash;:&ndash;:&ndash; &ndash;:&ndash;:&ndash; 24666
+<pre><code>root@es1:~# curl http://192.168.30.39:9200/es-search-query-2021.05/_count | jq .
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100    74  100    74    0     0  18412      0 --:--:-- --:--:-- --:--:-- 24666
 {
-&ldquo;count&rdquo;: 7839,
-&ldquo;_shards&rdquo;: {
-&ldquo;total&rdquo;: 5,
-&ldquo;successful&rdquo;: 5,
-&ldquo;skipped&rdquo;: 0,
-&ldquo;failed&rdquo;: 0
+  &quot;count&quot;: 7839,
+  &quot;_shards&quot;: {
+    &quot;total&quot;: 5,
+    &quot;successful&quot;: 5,
+    &quot;skipped&quot;: 0,
+    &quot;failed&quot;: 0
+  }
 }
-}</p>
-</li>
+</code></pre></li>
 </ul>
 <h4 id="5-驗證資料是否有被監聽進去-monitor-es-內">5. 驗證資料是否有被監聽進去 Monitor ES 內</h4>
 <ul>
 <li>
 <p>簡單的對 es1 上面的 train index 查詢一筆資料</p>
-<p>root@es1:~# curl -XGET &ldquo;http://192.168.30.171:9200/train/_search&rdquo; -H &lsquo;Content-Type: application/json&rsquo; -d&rsquo;</p>
-<blockquote>
-<p>{
-&ldquo;query&rdquo;: {
-&ldquo;match_all&rdquo;: {}
-},
-&ldquo;size&rdquo;: 1
-}&rsquo; | jq .
-% Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-Dload  Upload   Total   Spent    Left  Speed
-100   347  100   293  100    54  53486   9857 &ndash;:&ndash;:&ndash; &ndash;:&ndash;:&ndash; &ndash;:&ndash;:&ndash; 58600
+<pre><code>root@es1:~# curl -XGET &quot;http://192.168.30.171:9200/train/_search&quot; -H 'Content-Type: application/json' -d'
+&gt; {
+&gt;   &quot;query&quot;: {
+&gt;     &quot;match_all&quot;: {}
+&gt;   },
+&gt;   &quot;size&quot;: 1
+&gt; }' | jq .
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100   347  100   293  100    54  53486   9857 --:--:-- --:--:-- --:--:-- 58600
 {
-&ldquo;took&rdquo;: 3,
-&ldquo;timed_out&rdquo;: false,
-&ldquo;_shards&rdquo;: {
-&ldquo;total&rdquo;: 5,
-&ldquo;successful&rdquo;: 5,
-&ldquo;skipped&rdquo;: 0,
-&ldquo;failed&rdquo;: 0
-},
-&ldquo;hits&rdquo;: {
-&ldquo;total&rdquo;: 4,
-&ldquo;max_score&rdquo;: 1,
-&ldquo;hits&rdquo;: [
-{
-&ldquo;_index&rdquo;: &ldquo;train&rdquo;,
-&ldquo;_type&rdquo;: &ldquo;_doc&rdquo;,
-&ldquo;_id&rdquo;: &ldquo;2&rdquo;,
-&ldquo;_score&rdquo;: 1,
-&ldquo;_source&rdquo;: {
-&ldquo;id&rdquo;: &ldquo;data2&rdquo;,
-&ldquo;post_date&rdquo;: &ldquo;2019-05-27T17:25:30&rdquo;,
-&ldquo;context&rdquo;: &ldquo;love dog&rdquo;
+  &quot;took&quot;: 3,
+  &quot;timed_out&quot;: false,
+  &quot;_shards&quot;: {
+    &quot;total&quot;: 5,
+    &quot;successful&quot;: 5,
+    &quot;skipped&quot;: 0,
+    &quot;failed&quot;: 0
+  },
+  &quot;hits&quot;: {
+    &quot;total&quot;: 4,
+    &quot;max_score&quot;: 1,
+    &quot;hits&quot;: [
+      {
+        &quot;_index&quot;: &quot;train&quot;,
+        &quot;_type&quot;: &quot;_doc&quot;,
+        &quot;_id&quot;: &quot;2&quot;,
+        &quot;_score&quot;: 1,
+        &quot;_source&quot;: {
+          &quot;id&quot;: &quot;data2&quot;,
+          &quot;post_date&quot;: &quot;2019-05-27T17:25:30&quot;,
+          &quot;context&quot;: &quot;love dog&quot;
+        }
+      }
+    ]
+  }
 }
-}
-]
-}
-}</p>
-</blockquote>
-</li>
+</code></pre></li>
 <li>
 <p>進入 Monitor Kibana 做查詢</p>
 </li>
