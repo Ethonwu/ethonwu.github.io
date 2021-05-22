@@ -6,6 +6,7 @@
     <description>Recent content in Monitoring on Ethon Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
+    <lastBuildDate>Wed, 05 Aug 2020 18:04:11 +0800</lastBuildDate>
     
 	<atom:link href="http://localhost:1313/tags/monitoring/index.xml" rel="self" type="application/rss+xml" />
     
@@ -13,7 +14,7 @@
     <item>
       <title>透過 Packetbeat 來監控 Elasticsearch 查詢記錄</title>
       <link>http://localhost:1313/post/elasticsearch_packetbeat/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 05 Aug 2020 18:04:11 +0800</pubDate>
       
       <guid>http://localhost:1313/post/elasticsearch_packetbeat/</guid>
       <description>透過 Packetbeat 來監控 Elasticsearch 查詢記錄  最近在摸索 Elastic 的一些工具，因緣際會看到了有一個 beat 叫做 Packetbeat ，他可以去監控網路有關的資料，並且將其送到 logstash ，最後轉發到 Elasticsearch 上，透過 Kibana 做一些可視化的應用，於是找到了官方有寫得一篇文章： Monitoring the Search Queries ，雖然是 2016 的文章，但是看完文章後，覺得很有興趣，因此寫了這篇文章來實作他裡面的步驟以及細節。  架構以及運作過程  首先我們會有一個 Elasticsearch 的正式環境，並且會有一些 Application 會去定期的對 Elasticsearch 叢集打 Search 的 API 做查詢，然後我們透過 Packetbeat 去監聽 Application 送過去 正式環境 Elasticsearch 叢集的封包，Packetbeat 再將封包送去 Logstash 進行處理，將有 Search API 相關的封包整理出來，送到 監控專用的 Elasticsearch 上，如下圖所示:  架設監控 Elasticsearch 查詢記錄所需環境  這邊的環境是根據已經有 Elasticsearch 和 Kibana 環境，因此不會介紹如何運行 Elasticsearch 和 Kibana  環境介紹  OS : CentOS7 ES Cluster : 2 ( 一個為主要的 ES ，另一個為存放監控資料得 ES ) ELK : 6.</description>
