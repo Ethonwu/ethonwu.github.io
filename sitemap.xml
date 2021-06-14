@@ -3,6 +3,31 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>http://localhost:1313/tags/postgresql/</loc>
+    <lastmod>2020-11-17T13:48:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:1313/post/postgresql_server_replication/</loc>
+    <lastmod>2020-11-17T13:48:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:1313/post/</loc>
+    <lastmod>2020-11-17T13:48:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:1313/tags/streaming-replication/</loc>
+    <lastmod>2020-11-17T13:48:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:1313/tags/</loc>
+    <lastmod>2020-11-17T13:48:00+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://localhost:1313/tags/audit/</loc>
     <lastmod>2020-08-05T18:04:11+08:00</lastmod>
   </url>
@@ -23,17 +48,7 @@
   </url>
   
   <url>
-    <loc>http://localhost:1313/post/</loc>
-    <lastmod>2020-08-05T18:04:11+08:00</lastmod>
-  </url>
-  
-  <url>
     <loc>http://localhost:1313/tags/query/</loc>
-    <lastmod>2020-08-05T18:04:11+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://localhost:1313/tags/</loc>
     <lastmod>2020-08-05T18:04:11+08:00</lastmod>
   </url>
   

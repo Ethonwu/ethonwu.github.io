@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>streaming replication on Ethon Blog</title>
+    <link>http://localhost:1313/tags/streaming-replication/</link>
+    <description>Recent content in streaming replication on Ethon Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 17 Nov 2020 13:48:00 +0800</lastBuildDate>
+    
+	<atom:link href="http://localhost:1313/tags/streaming-replication/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>PostgreSQL replication 機制設定</title>
+      <link>http://localhost:1313/post/postgresql_server_replication/</link>
+      <pubDate>Tue, 17 Nov 2020 13:48:00 +0800</pubDate>
+      
+      <guid>http://localhost:1313/post/postgresql_server_replication/</guid>
+      <description>PostgreSQL replication 機制設定  最近研究了 PostgreSQL replication 的機制設定，因此寫了這篇文章，將當時的架設過程記錄下來。 PostgreSQL streaming replication 簡單來說，就是轉被兩個 DB ，一個 DB 為 Master （主DB），主要負責所有操作，另一個 DB 為 Slave (從DB)，它的功能只有負責接收 Master （主DB）傳送過來的資料，本身這個 DB 只能 select 其他的功能都沒有，往後的 pgpool 、patroni 架構，都是基於 streaming replication 架構去往後延伸。  設定過程  首先我們會準備兩個節點，並且將 PostgreSQL 架設在上面，並且設定 streaming replication 的抄寫  環境介紹  OS: CentOS 7.8 Host * 2     Hostname IP Description     ethon.mh01 10.37.0.2 PostgreSQL Master DB   ethon.</description>
+    </item>
+    
+  </channel>
+</rss>
