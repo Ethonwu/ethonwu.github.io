@@ -12,6 +12,15 @@
     
     
     <item>
+      <title>PostgreSQL replication 機制切換</title>
+      <link>http://localhost:1313/post/postgresql_replication_switch/</link>
+      <pubDate>Tue, 17 Nov 2020 13:48:00 +0800</pubDate>
+      
+      <guid>http://localhost:1313/post/postgresql_replication_switch/</guid>
+      <description>PostgreSQL replication 機制設定  根據上一篇 PostgreSQL replication 的機制設定  </description>
+    </item>
+    
+    <item>
       <title>PostgreSQL replication 機制設定</title>
       <link>http://localhost:1313/post/postgresql_server_replication/</link>
       <pubDate>Tue, 17 Nov 2020 13:48:00 +0800</pubDate>

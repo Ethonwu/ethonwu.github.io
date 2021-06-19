@@ -8,6 +8,11 @@
   </url>
   
   <url>
+    <loc>http://localhost:1313/post/postgresql_replication_switch/</loc>
+    <lastmod>2020-11-17T13:48:00+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://localhost:1313/post/postgresql_server_replication/</loc>
     <lastmod>2020-11-17T13:48:00+08:00</lastmod>
   </url>
