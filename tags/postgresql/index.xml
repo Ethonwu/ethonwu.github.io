@@ -12,7 +12,7 @@
     
     
     <item>
-      <title>PostgreSQL replication 機制切換</title>
+      <title>PostgreSQL replication 機制切換 （二 ）</title>
       <link>http://localhost:1313/post/postgresql_replication_switch/</link>
       <pubDate>Tue, 17 Nov 2020 13:48:00 +0800</pubDate>
       
@@ -21,7 +21,7 @@
     </item>
     
     <item>
-      <title>PostgreSQL replication 機制設定</title>
+      <title>PostgreSQL replication 機制設定 (一)</title>
       <link>http://localhost:1313/post/postgresql_server_replication/</link>
       <pubDate>Tue, 17 Nov 2020 13:48:00 +0800</pubDate>
       
