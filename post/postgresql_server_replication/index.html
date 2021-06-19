@@ -257,6 +257,7 @@ backup_label  global   pg_hba.conf    pg_log        pg_notify  pg_snapshots  pg_
 base          pg_clog  pg_ident.conf  pg_multixact  pg_serial  pg_stat_tmp   pg_tblspc    PG_VERSION   postgresql.conf</p>
 </li>
 </ul>
+<hr>
 <h4 id="3-修改-slave-相關設定檔">3. 修改 Slave 相關設定檔</h4>
 <ul>
 <li>pg_basebackup 命令會將 Master postgres 的 home 目錄底下的所有資料搬過來， Slave 設定檔會需要額外修改，這邊就先備份 Master 備份過來得資料，再進行更改</li>
