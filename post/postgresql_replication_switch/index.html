@@ -238,50 +238,51 @@ host    all             all             ::1/128                 ident
 host    replication     replica     10.37.0.2/32                 md5
 </code></pre>
 <ul>
-<li>
-<p>啟動 ethonwu.mh02 上的 PostgreSQL</p>
-<p>-bash-4.2$ logout
+<li>啟動 ethonwu.mh02 上的 PostgreSQL</li>
+</ul>
+<pre><code>-bash-4.2$ logout
 [root@ethonwu ~]# systemctl restart postgresql
 [root@ethonwu ~]# su - postgres
 -bash-4.2$ psql
 psql (9.2.24)
-Type &ldquo;help&rdquo; for help.</p>
-<p>postgres=# \l
-List of databases
-Name    |  Owner   | Encoding  | Collate | Ctype |   Access privileges
-&mdash;&mdash;&mdash;&ndash;+&mdash;&mdash;&mdash;-+&mdash;&mdash;&mdash;&ndash;+&mdash;&mdash;&mdash;+&mdash;&mdash;-+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;
-master_db | postgres | SQL_ASCII | C       | C     |
-postgres  | postgres | SQL_ASCII | C       | C     |
-template0 | postgres | SQL_ASCII | C       | C     | =c/postgres          +
-|          |           |         |       | postgres=CTc/postgres
-template1 | postgres | SQL_ASCII | C       | C     | =c/postgres          +
-|          |           |         |       | postgres=CTc/postgres
-(4 rows)</p>
-<p>postgres=#</p>
-</li>
-<li>
-<p>並且針對剛才設定的 DB  建立 Table 以及寫入資料</p>
-<p>postgres=# \c master_db
-You are now connected to database &ldquo;master_db&rdquo; as user &ldquo;postgres&rdquo;.
+Type &quot;help&quot; for help.
+
+postgres=# \l
+                             List of databases
+   Name    |  Owner   | Encoding  | Collate | Ctype |   Access privileges
+-----------+----------+-----------+---------+-------+-----------------------
+ master_db | postgres | SQL_ASCII | C       | C     |
+ postgres  | postgres | SQL_ASCII | C       | C     |
+ template0 | postgres | SQL_ASCII | C       | C     | =c/postgres          +
+           |          |           |         |       | postgres=CTc/postgres
+ template1 | postgres | SQL_ASCII | C       | C     | =c/postgres          +
+           |          |           |         |       | postgres=CTc/postgres
+(4 rows)
+
+postgres=#
+</code></pre><ul>
+<li>並且針對剛才設定的 DB  建立 Table 以及寫入資料</li>
+</ul>
+<pre><code>postgres=# \c master_db
+You are now connected to database &quot;master_db&quot; as user &quot;postgres&quot;.
 master_db=# CREATE TABLE switch_to_master ( NAME TEXT NOT NULL );
 CREATE TABLE
 master_db=# \d
-List of relations
-Schema |       Name       | Type  |  Owner
-&mdash;&mdash;&ndash;+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;+&mdash;&mdash;-+&mdash;&mdash;&mdash;-
-public | switch_to_master | table | postgres
-(1 row)</p>
-<h2 id="name">master_db=# INSERT INTO switch_to_master (name) VALUES (&lsquo;ethon&rsquo;);
+              List of relations
+ Schema |       Name       | Type  |  Owner
+--------+------------------+-------+----------
+ public | switch_to_master | table | postgres
+(1 row)   
+master_db=# INSERT INTO switch_to_master (name) VALUES ('ethon');
 INSERT 0 1
 master_db=# select * from switch_to_master;
-name</h2>
-<p>ethon
-(1 row)</p>
-<p>master_db=#</p>
-</li>
-<li>
-<p>上述切換過程，成功將 Slave 切換成 Master ，有了 insert 的功能，並不能只有 select 的功能</p>
-</li>
+ name
+-------
+ ethon
+(1 row)
+
+</code></pre><ul>
+<li>上述切換過程，成功將 Slave 切換成 Master ，有了 insert 的功能，並不能只有 select 的功能</li>
 </ul>
 <h3 id="把服務改回原本狀況">把服務改回原本狀況</h3>
 <ul>
@@ -289,9 +290,9 @@ name</h2>
 </ul>
 <h4 id="登入-ethonwumh01-進行設定">登入 ethonwu.mh01 進行設定</h4>
 <ul>
-<li>
-<p>進入 Master ( ethonwu.mh01 ) 更改 data 目錄名稱，並且從新新建 data 資料夾設定權限為 700，因為在做 pg_basebackup 的時候，目錄必須為空</p>
-<p>[root@ethonwu ~]# su - postgres
+<li>進入 Master ( ethonwu.mh01 ) 更改 data 目錄名稱，並且從新新建 data 資料夾設定權限為 700，因為在做 pg_basebackup 的時候，目錄必須為空</li>
+</ul>
+<pre><code>[root@ethonwu ~]# su - postgres
 -bash-4.2$ pwd
 /var/lib/pgsql
 -bash-4.2$ mv data/ data_backup/
@@ -300,30 +301,30 @@ name</h2>
 total 0
 -bash-4.2$ ls -al
 total 24
-drwx&mdash;&mdash;   5 postgres postgres  149 Jun 19 14:18 .
+drwx------   5 postgres postgres  149 Jun 19 14:18 .
 drwxr-xr-x. 32 root     root     4096 Jun 14 09:32 ..
--rw&mdash;&mdash;-   1 postgres postgres  144 Jun 19 13:38 .bash_history
--rw-r&ndash;r&ndash;   1 postgres postgres   85 May  6 15:00 .bash_profile
--rw&mdash;&mdash;-   1 postgres postgres  205 Jun 19 13:38 .psql_history
--rw&mdash;&mdash;-   1 postgres postgres 1185 Jun 14 11:00 .viminfo
-drwx&mdash;&mdash;   2 postgres postgres    6 May  6 15:00 backups
+-rw-------   1 postgres postgres  144 Jun 19 13:38 .bash_history
+-rw-r--r--   1 postgres postgres   85 May  6 15:00 .bash_profile
+-rw-------   1 postgres postgres  205 Jun 19 13:38 .psql_history
+-rw-------   1 postgres postgres 1185 Jun 14 11:00 .viminfo
+drwx------   2 postgres postgres    6 May  6 15:00 backups
 drwxr-xr-x   2 postgres postgres    6 Jun 19 14:18 data
-drwx&mdash;&mdash;  15 postgres postgres  328 Jun 19 13:38 data_backup
--rw&mdash;&mdash;-   1 postgres postgres 1223 Jun 14 09:32 initdb.log
--bash-4.2$ chmod 700 data/</p>
-</li>
-<li>
-<p>將 ethonwu.mh02 上的資料備份回來</p>
-<p>[root@ethonwu ~]# su - postgres
+drwx------  15 postgres postgres  328 Jun 19 13:38 data_backup
+-rw-------   1 postgres postgres 1223 Jun 14 09:32 initdb.log
+-bash-4.2$ chmod 700 data/
+</code></pre><ul>
+<li>將 ethonwu.mh02 上的資料備份回來</li>
+</ul>
+<pre><code>[root@ethonwu ~]# su - postgres
 -bash-4.2$ cd data
 -bash-4.2$ ls
--bash-4.2$ pg_basebackup -F p -Xs &ndash;progress -D /var/lib/pgsql/data -h 10.37.0.3 -p 5432 -U replica &ndash;password
+-bash-4.2$ pg_basebackup -F p -Xs --progress -D /var/lib/pgsql/data -h 10.37.0.3 -p 5432 -U replica --password
 Password:
 25796/25796 kB (100%), 1/1 tablespace
 -bash-4.2$ ls
 PG_VERSION    backup_label.old  global   pg_hba.conf    pg_log        pg_notify  pg_snapshots  pg_subtrans  pg_twophase  postgresql.conf
-backup_label  base              pg_clog  pg_ident.conf  pg_multixact  pg_serial  pg_stat_tmp   pg_tblspc    pg_xlog</p>
-</li>
+backup_label  base              pg_clog  pg_ident.conf  pg_multixact  pg_serial  pg_stat_tmp   pg_tblspc    pg_xlog
+</code></pre><ul>
 <li>
 <p>同上更改 ethonwu.mh02 上 pg_hba.conf 設定檔</p>
 <p>[root@ethonwu ~]# hostname
@@ -409,43 +410,44 @@ ethonwu.mh02
 </code></pre>
 <h3 id="查看-master--ethonwumh01--上的-replica-狀態和-table-資料">查看 Master ( ethonwu.mh01 ) 上的 Replica 狀態和 Table 資料</h3>
 <ul>
-<li>
-<p>檢查 Table 資料</p>
-<p>[root@ethonwu ~]# su - postgres
+<li>檢查 Table 資料</li>
+</ul>
+<pre><code>[root@ethonwu ~]# su - postgres
 -bash-4.2$ psql
 psql (9.2.24)
-Type &ldquo;help&rdquo; for help.</p>
-<p>postgres=# \l
-List of databases
-Name    |  Owner   | Encoding  | Collate | Ctype |   Access privileges
-&mdash;&mdash;&mdash;&ndash;+&mdash;&mdash;&mdash;-+&mdash;&mdash;&mdash;&ndash;+&mdash;&mdash;&mdash;+&mdash;&mdash;-+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;
-master_db | postgres | SQL_ASCII | C       | C     |
-postgres  | postgres | SQL_ASCII | C       | C     |
-template0 | postgres | SQL_ASCII | C       | C     | =c/postgres          +
-|          |           |         |       | postgres=CTc/postgres
-template1 | postgres | SQL_ASCII | C       | C     | =c/postgres          +
-|          |           |         |       | postgres=CTc/postgres
-(4 rows)</p>
-<h2 id="name-1">postgres=# \c master_db
-You are now connected to database &ldquo;master_db&rdquo; as user &ldquo;postgres&rdquo;.
+Type &quot;help&quot; for help.
+
+postgres=# \l
+                             List of databases
+   Name    |  Owner   | Encoding  | Collate | Ctype |   Access privileges
+-----------+----------+-----------+---------+-------+-----------------------
+ master_db | postgres | SQL_ASCII | C       | C     |
+ postgres  | postgres | SQL_ASCII | C       | C     |
+ template0 | postgres | SQL_ASCII | C       | C     | =c/postgres          +
+           |          |           |         |       | postgres=CTc/postgres
+ template1 | postgres | SQL_ASCII | C       | C     | =c/postgres          +
+           |          |           |         |       | postgres=CTc/postgres
+(4 rows)
+
+postgres=# \c master_db
+You are now connected to database &quot;master_db&quot; as user &quot;postgres&quot;.
 master_db=# select * from switch_to_master;
-name</h2>
-<p>ethon
-(1 row)</p>
-</li>
-<li>
-<p>查看 Replica 狀態</p>
-<p>master_db=# select * from pg_stat_replication;
+ name
+-------
+ ethon
+(1 row)
+</code></pre><ul>
+<li>查看 Replica 狀態</li>
+</ul>
+<pre><code>master_db=# select * from pg_stat_replication;
 pid  | usesysid | usename | application_name | client_addr | client_hostname | client_port |         backend_start         |   state   | sent_location | write_location | flush_location | replay_location
 | sync_priority | sync_state
-&mdash;&mdash;+&mdash;&mdash;&mdash;-+&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&mdash;-+&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;+&mdash;&mdash;&mdash;&mdash;-+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-+&mdash;&mdash;&mdash;&ndash;+&mdash;&mdash;&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&mdash;&mdash;-+&mdash;&mdash;&mdash;&mdash;&mdash;-+&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;
-+&mdash;&mdash;&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&mdash;
-1941 |    16384 | replica | walreceiver      | 10.37.0.3   |                 |       40814 | 2021-06-19 14:36:55.704139+00 | streaming | 0/5000080     | 0/5000080      | 0/5000118      | 0/5000118
+------+----------+---------+------------------+-------------+-----------------+-------------+-------------------------------+-----------+---------------+----------------+----------------+-----------------
++---------------+------------
+ 1941 |    16384 | replica | walreceiver      | 10.37.0.3   |                 |       40814 | 2021-06-19 14:36:55.704139+00 | streaming | 0/5000080     | 0/5000080      | 0/5000118      | 0/5000118
 |             0 | async
-(1 row)</p>
-</li>
-</ul>
-<p>成功完成所有的切換，以及測試，切換過一次會有一種想法：我是否可以寫一隻腳本，來搬移 Master 和 Slave 上的設定檔，來達到自動切換呢？ 以及延伸出 <strong>該如何做一個 Proxy 來讓 client 不需要指定 IP 就可以直接訪問到 Master 並且寫入資料</strong> ，因此下一章節會介紹 <strong>pgpool-II</strong> 的架構，這個架構將上述的兩個問題解決了 自動切換腳本 和 Proxy 。</p>
+(1 row)
+</code></pre><p>成功完成所有的切換，以及測試，切換過一次會有一種想法：我是否可以寫一隻腳本，來搬移 Master 和 Slave 上的設定檔，來達到自動切換呢？ 以及延伸出 <strong>該如何做一個 Proxy 來讓 client 不需要指定 IP 就可以直接訪問到 Master 並且寫入資料</strong> ，因此下一章節會介紹 <strong>pgpool-II</strong> 的架構，這個架構將上述的兩個問題解決了 自動切換腳本 和 Proxy 。</p>
 </div>
             </div>
         </div>
