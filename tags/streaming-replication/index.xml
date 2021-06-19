@@ -17,7 +17,7 @@
       <pubDate>Tue, 17 Nov 2020 13:48:00 +0800</pubDate>
       
       <guid>http://localhost:1313/post/postgresql_replication_switch/</guid>
-      <description>PostgreSQL replication 機制設定  根據上一篇 PostgreSQL replication 的機制設定  </description>
+      <description>PostgreSQL replication 機制設定  根據上一篇 PostgreSQL replication 的機制設定，有提到如何設定以及架設基本的 streaming replication 功能，這邊來介紹 如何將 Slave 節點切換成 Master 節點  切換過程  首先會在 Master ( ethon.mh01 ) 建立一個 DB ，將 Master DB ( ethon.mh01 ) 關閉，將 Slave ( ethon.mh02 ) 節點設定成 Master ( ethon.mh02 ) ，寫入資料到 Master ( ethon.mh02 ) 上 在將原本的 Master ( ethon.mh02 ) 切換回 Slave  環境介紹  OS: CentOS 7.8 Host * 2     Hostname IP Description     ethon.</description>
     </item>
     
     <item>
