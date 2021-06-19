@@ -155,16 +155,14 @@ layui.use('element', function(){
 </tbody>
 </table>
 <ul>
-<li>
-<p>PostgreSQL rpm version ( 安裝方法是使用 rpm 的方式進行安裝 repo 來源是使用原生 DVD 底下的套件 )， rpm 安裝的 postgres home 目錄在 /var/lib/pgsql 底下</p>
-<p>[root@ethon ~]# rpm -qa | grep postgresql
+<li>PostgreSQL rpm version ( 安裝方法是使用 rpm 的方式進行安裝 repo 來源是使用原生 DVD 底下的套件 )， rpm 安裝的 postgres home 目錄在 /var/lib/pgsql 底下</li>
+</ul>
+<pre><code>[root@ethon ~]# rpm -qa | grep postgresql
 postgresql-libs-9.2.24-4.el7_8.x86_64
 postgresql-server-9.2.24-4.el7_8.x86_64
 postgresql-contrib-9.2.24-4.el7_8.x86_64
-postgresql-9.2.24-4.el7_8.x86_64</p>
-</li>
-</ul>
-<h3 id="在-master-上建立-db-並且關閉服務">在 Master 上建立 DB ，並且關閉服務</h3>
+postgresql-9.2.24-4.el7_8.x86_64
+</code></pre><h3 id="在-master-上建立-db-並且關閉服務">在 Master 上建立 DB ，並且關閉服務</h3>
 <ul>
 <li>將 Master 關閉，並且將 Slave ( ethon.mh02 ) 機器上的 PostgreSQL 切換成 Master，<strong>再 Slave 切換成 Master 之前該機器上的 Postgresql 都是 read-only 的模式，無法寫入資料</strong></li>
 </ul>
