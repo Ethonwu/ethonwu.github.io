@@ -3,12 +3,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Ethon Blog - Virtualbox Command Notes </title>
+    <title>Ethon Blog - ESXi 指令筆記 </title>
     
     
-    <meta content="Virtualbox, linux, shell" name="keywords">
+    <meta content="ESXi, VMWare" name="keywords">
     
-    <meta content="Ethon Blog - Virtualbox Command intro" name="description">
+    <meta content="Ethon Blog - ESXi 指令筆記" name="description">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     
@@ -91,10 +91,10 @@ layui.use('element', function(){
             <div class="layui-card single-card">
                 <br />
                 <blockquote class="self-elem-quote  markdown-body single-title" >
-                    <h1>Virtualbox Command Notes</h1>
+                    <h1>ESXi 指令筆記</h1>
                     <h3 style="margin-top:10px; margin-bottom:10px"> 
     <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2017-10-03</span>
+    <span>2021-01-08</span>
 
     
     
@@ -106,16 +106,12 @@ layui.use('element', function(){
     
 
     
-        <a href="/tags/virtualbox/">
-            <span class="layui-badge " style="vertical-align: 2px;">Virtualbox</span>
+        <a href="/tags/esxi/">
+            <span class="layui-badge " style="vertical-align: 2px;">ESXi</span>
         </a>
     
-        <a href="/tags/linux/">
-            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
-        </a>
-    
-        <a href="/tags/shell/">
-            <span class="layui-badge " style="vertical-align: 2px;">shell</span>
+        <a href="/tags/vmware/">
+            <span class="layui-badge " style="vertical-align: 2px;">VMWare</span>
         </a>
     
     
@@ -123,34 +119,31 @@ layui.use('element', function(){
 
                 </blockquote>
                 <div class="layui-card-body markdown-body single-content">
-                    <h1 id="my-common-use-command">My common use command</h1>
-<h2 id="1list-vm">1.List VM</h2>
-<pre><code>VBoxManage list vms
-</code></pre>
-<h3 id="using-this-will-be-more-clear">Using this will be more clear</h3>
-<pre><code>VBoxManage list vms | sed &quot;s/\&quot;\(.*\)\&quot;.*/\1/&quot;
-</code></pre>
-<h4 id="output">Output:</h4>
-<h3 id="in-my-pc-show-like-this">In my PC show like this:</h3>
-<pre><code>kali
-hadoop-master
-hadoop-slave2
-hadoop-slave3
-hadoop-slave1
-</code></pre>
-<h2 id="2power-onoff-vms">2.Power On/Off VMs</h2>
-<h3 id="this-is-opening-in-gui-mode">This is opening in GUI mode:</h3>
-<pre><code>VBoxManage startvm &quot;&lt;vm name&gt;&quot;
-</code></pre>
-<h3 id="if-you-want-to-open-in-backgrund">If you want to open in backgrund:</h3>
-<pre><code>VBoxHeadless --startvm &quot;&lt;vm name&gt;&quot; --vrde=off &amp; &gt; tmp.txt &amp;
-</code></pre>
-<h3 id="power-off-vm">Power off vm</h3>
-<pre><code>VBoxManage controlvm &quot;&lt;vm name&gt;&quot; poweroff
-</code></pre>
-<h2 id="3import-ova-file-to-virtualbox">3.Import ova file to Virtualbox</h2>
-<pre><code>VBoxManage import  &lt;File/path/and/file.ova&gt; --vsys 0 --vmname &quot;Rename&quot;
-</code></pre>
+                    <p>公司的 Server 是使用 <strong>免費版</strong> 的 ESXi 系統，無法使用一些工具進行自動化，因此只好默默的打開 ssh port ，好好得研究一下命令
+這邊主要做一些在這期間時常使用到的 ESXi 相關的指令，做個筆記</p>
+<hr>
+<h3 id="基本介紹">基本介紹</h3>
+<p>ESXi 預設不會將 ssh port 打開，必須要透過 WEB 或是 終端畫面進行 Enable ，如下圖啟用方式：</p>
+<p><img src="http://0.0.0.0:12500/esxi_note/esxi_enable_ssh.png" alt="1"></p>
+<p>啟用之後，就可以透過 22 port 連線到 ESXi Server 內執行裡面的命令取代 WEB UI</p>
+<h3 id="免密碼登入">免密碼登入</h3>
+<p>可以自動化就會想要 <strong>免密碼登入</strong> ，讓自動化更齊全嘛！！</p>
+<p>將自己的 ssh 公鑰放置在 ESXi 上
+這邊假定你已經會產 key 了
+登入 ESXi Server 進入目錄編輯 authorized_keys 檔案</p>
+<pre><code># 輸入你自己的 ssh 公鑰
+vi /etc/ssh/keys-root/authorized_keys
+</code></pre><h3 id="使用者相關">使用者相關</h3>
+<ul>
+<li>建立一個一般使用者</li>
+</ul>
+<pre><code>esxcli system account add -i &lt;User Name&gt; -d '&lt;User Description&gt;' -p &lt;Password&gt; -c &lt;Double type password&gt;
+</code></pre><ul>
+<li>-i 的部分後面輸入使用者名稱</li>
+<li>-d 對這個使用這做一些介紹</li>
+<li>-p 輸入使用者登入密碼</li>
+<li>-c 重複輸入設定的密碼</li>
+</ul>
 </div>
             </div>
         </div>
